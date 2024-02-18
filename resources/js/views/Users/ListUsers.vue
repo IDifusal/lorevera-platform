@@ -1,5 +1,4 @@
 <template>
-  <v-main>
     <h2>List Users</h2>
     <v-spacer></v-spacer>
     <v-data-table
@@ -8,7 +7,6 @@
       :items-per-page="5"
       class="elevation-1 pt-5"
     ></v-data-table>
-  </v-main>
 </template>
 <script>
 import axios from "axios";

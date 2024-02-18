@@ -1,5 +1,4 @@
 <template>
-  <v-main>
     <h2>Dashboard</h2>
     <p>Hola {{ name }}</p>
     <v-row>
@@ -110,7 +109,6 @@
         </v-card>
       </v-col>
     </v-row>
-  </v-main>
 </template>
 <script>
 import axios from "axios";
