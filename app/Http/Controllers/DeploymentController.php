@@ -17,7 +17,7 @@ class DeploymentController extends Controller
 
         $output = null;
         $resultCode = null;
-        exec('cd /public_html/app/ && git pull 2>&1', $output, $resultCode);
+        exec("git pull https://github.com/IDifusal/lorevera-platform", $output, $resultCode);
         return response()->json(['output' => $output, 'resultCode' => $resultCode]);
     }
 }
