@@ -11,7 +11,7 @@ class DeploymentController extends Controller
         // Access the token sent in the request body
         $token = $request->input('token');
 
-        if ($token !== env('DEPLOY_TOKEN')) {
+        if ($token !== "kZn24BEuvovbamyp") {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
