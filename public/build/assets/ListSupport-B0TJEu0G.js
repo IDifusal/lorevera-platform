@@ -1,0 +1,1 @@
+import{_ as t}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as e,w as n,r as s,o as r,b as c}from"./app-DouUbhVd.js";const a={},_=c("h2",null,"List Support",-1);function p(i,l){const o=s("v-main");return r(),e(o,null,{default:n(()=>[_]),_:1})}const u=t(a,[["render",p]]);export{u as default};

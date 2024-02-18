@@ -1,12 +1,210 @@
 {
+  "_UploadImage-!~{00k}~.js": {
+    "file": "assets/UploadImage-lSvv6w-L.css",
+    "src": "_UploadImage-!~{00k}~.js"
+  },
+  "_UploadImage-i_V0JoWh.js": {
+    "file": "assets/UploadImage-i_V0JoWh.js",
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ],
+    "css": [
+      "assets/UploadImage-lSvv6w-L.css"
+    ]
+  },
+  "__plugin-vue_export-helper-DlAUqK2U.js": {
+    "file": "assets/_plugin-vue_export-helper-DlAUqK2U.js"
+  },
   "resources/css/app.css": {
     "file": "assets/app-l0sNRNKZ.js",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-CuzW6_j0.js",
+    "file": "assets/app-DouUbhVd.js",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/views/Dashboard.vue",
+      "resources/js/views/Login.vue",
+      "resources/js/views/Users/ListUsers.vue",
+      "resources/js/views/Sales.vue",
+      "resources/js/views/Recipes/ListRecipes.vue",
+      "resources/js/views/RecipesNew/ListRecipes.vue",
+      "resources/js/views/Recipes/EditRecipe.vue",
+      "resources/js/views/Recipes/EditRecipePlan.vue",
+      "resources/js/views/Recipes/CreateRecipe.vue",
+      "resources/js/views/Programs/ListPrograms.vue",
+      "resources/js/views/Programs/EditProgram.vue",
+      "resources/js/views/Programs/CreateProgram.vue",
+      "resources/js/views/Support/ListSupport.vue",
+      "resources/js/views/Cardio/ListCardio.vue",
+      "resources/js/views/Cardio/CreateCardio.vue",
+      "resources/js/views/Cardio/EditCardio.vue"
+    ],
+    "css": [
+      "assets/app-CXCViQxy.css"
+    ]
+  },
+  "resources/js/views/Cardio/CreateCardio.vue": {
+    "file": "assets/CreateCardio-C-m6Ro3i.js",
+    "src": "resources/js/views/Cardio/CreateCardio.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UploadImage-i_V0JoWh.js",
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Cardio/EditCardio.vue": {
+    "file": "assets/EditCardio-OB4lVFo0.js",
+    "src": "resources/js/views/Cardio/EditCardio.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UploadImage-i_V0JoWh.js",
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Cardio/ListCardio.vue": {
+    "file": "assets/ListCardio-ThAYRLzO.js",
+    "src": "resources/js/views/Cardio/ListCardio.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Dashboard.vue": {
+    "file": "assets/Dashboard-BiJfMZEr.js",
+    "src": "resources/js/views/Dashboard.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ],
+    "css": [
+      "assets/Dashboard-Dmq4khPC.css"
+    ]
+  },
+  "resources/js/views/Login.vue": {
+    "file": "assets/Login-DrjNmG0o.js",
+    "src": "resources/js/views/Login.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ],
+    "css": [
+      "assets/Login-BnW1tV4Z.css"
+    ]
+  },
+  "resources/js/views/Programs/CreateProgram.vue": {
+    "file": "assets/CreateProgram-CyFG368B.js",
+    "src": "resources/js/views/Programs/CreateProgram.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_UploadImage-i_V0JoWh.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Programs/EditProgram.vue": {
+    "file": "assets/EditProgram-2IQtMH0K.js",
+    "src": "resources/js/views/Programs/EditProgram.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_UploadImage-i_V0JoWh.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Programs/ListPrograms.vue": {
+    "file": "assets/ListPrograms-B8DzJeKK.js",
+    "src": "resources/js/views/Programs/ListPrograms.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Recipes/CreateRecipe.vue": {
+    "file": "assets/CreateRecipe-hLLp-dHh.js",
+    "src": "resources/js/views/Recipes/CreateRecipe.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_UploadImage-i_V0JoWh.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/views/Recipes/EditRecipe.vue": {
+    "file": "assets/EditRecipe-B-ypAAMa.js",
+    "src": "resources/js/views/Recipes/EditRecipe.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_UploadImage-i_V0JoWh.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ],
+    "css": [
+      "assets/EditRecipe-DS_QjCG1.css"
+    ]
+  },
+  "resources/js/views/Recipes/EditRecipePlan.vue": {
+    "file": "assets/EditRecipePlan-DhmYQySs.js",
+    "src": "resources/js/views/Recipes/EditRecipePlan.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_UploadImage-i_V0JoWh.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Recipes/ListRecipes.vue": {
+    "file": "assets/ListRecipes-pW8dKgPj.js",
+    "src": "resources/js/views/Recipes/ListRecipes.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/RecipesNew/ListRecipes.vue": {
+    "file": "assets/ListRecipes-BVgm4YsS.js",
+    "src": "resources/js/views/RecipesNew/ListRecipes.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
+  },
+  "resources/js/views/Sales.vue": {
+    "file": "assets/Sales-Do-CYfhX.js",
+    "src": "resources/js/views/Sales.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/views/Support/ListSupport.vue": {
+    "file": "assets/ListSupport-B0TJEu0G.js",
+    "src": "resources/js/views/Support/ListSupport.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/views/Users/ListUsers.vue": {
+    "file": "assets/ListUsers-DzVb_fln.js",
+    "src": "resources/js/views/Users/ListUsers.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js"
+    ]
   }
 }
