@@ -1,0 +1,1 @@
+[29-Nov-2022 14:34:14 America/Boise] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.3.33. in /home3/pbhhvcmy/public_html/app/vendor/composer/platform_check.php on line 24
