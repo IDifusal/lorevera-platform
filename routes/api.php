@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DeploymentController;
 
 /*
@@ -19,3 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/git-pull',[DeploymentController::class,'gitPull']);
+
+
+//mobile routes add prefix
+Route::post('/mobile/login', [AuthController::class, 'loginUser'])->name('login');
+Route::post('/mobile/register', [AuthController::class, 'createUser']);
+Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+});
