@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\DeploymentController;
 
 /*
@@ -16,11 +17,9 @@ use App\Http\Controllers\DeploymentController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::post('/git-pull',[DeploymentController::class,'gitPull']);
+Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
 
+Route::post('/brd-calculator', [ServicesController::class, 'bdrcalculator']);
 
 //mobile routes add prefix
 Route::post('/mobile/login', [AuthController::class, 'loginUser'])->name('login');

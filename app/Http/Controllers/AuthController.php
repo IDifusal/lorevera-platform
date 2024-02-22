@@ -11,20 +11,21 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use Laravel\Sanctum\PersonalAccessToken;
+
 class AuthController extends Controller
 {
 
-    public function updateProfile (Request $request)
+    public function updateProfile(Request $request)
     {
         $user = Auth::user();
-        
+
         $user->update([
             'height' => $request->height ?? '',
             'weight' => $request->weight ?? '',
             'gender' => $request->gender ?? '',
             'birthdayDate' => $request->dob ?? '',
         ]);
-        
+
         return response()->json(['message' => 'Profile updated successfully'], 200);
     }
     /**
@@ -35,19 +36,22 @@ class AuthController extends Controller
     public function createUser(Request $request)
     {
         try {
-            //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'email' => ['required', 'email', 'unique:users,email', 'regex:/^.+\.com$/i'],
+                    'password' => 'required'
+                ],
+                [
+                    'email.regex' => 'Enter a valid email .com',
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
+                    'message' => $validateUser->errors()->first(),
                 ], 401);
             }
 
@@ -79,13 +83,15 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), 
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -93,10 +99,10 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            if(!Auth::attempt($request->only(['email', 'password']))){
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
+                    'message' => 'EMAIL_PASSWORD_WRONG',
                 ], 401);
             }
 
@@ -105,7 +111,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'user'=>$user->name,
+                'user' => $user->name,
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
@@ -121,7 +127,7 @@ class AuthController extends Controller
      */
     public function me(Request $request)
     {
-         $user = $request->user();
+        $user = $request->user();
         if (!$user) {
             return response()->json([
                 'errors' => [
@@ -129,7 +135,7 @@ class AuthController extends Controller
                 ],
             ], 401);
         }
-        
+
         return $user;
     }
 
@@ -149,5 +155,5 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
-    }    
+    }
 }
