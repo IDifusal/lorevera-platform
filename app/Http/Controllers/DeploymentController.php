@@ -28,7 +28,7 @@ class DeploymentController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Clear the application cache
+        // Clear the application cache 
         Artisan::call('cache:clear');
 
         return response()->json(['message' => 'Cache cleared successfully']);
