@@ -36,6 +36,7 @@ class ServicesController extends Controller
     {
         return ($feet * 30.48) + ($inches * 2.54);
     } 
+    //IDS AS STRING, duration_of_workout
     public function getPackages(){
         return response()->json([
            "data"=> [
@@ -45,7 +46,7 @@ class ServicesController extends Controller
                 "featured_image_url" => "https://example.com/package.jpg",
                 "description" => "A comprehensive fitness program designed for all levels.",
                 "program_introduction" => "Start your journey with our Ultimate Fitness Challenge. This program is designed to help you achieve your fitness goals with a focus on strength, flexibility, and endurance.",
-                "duration_of_workout" => "60-90 minutes",
+                "duration_of_workout" => "60-90",
                 "duration_per_week" => "3-4 days",
                 "focus" => "Full Body",
                 "based" => "Home or Gym",

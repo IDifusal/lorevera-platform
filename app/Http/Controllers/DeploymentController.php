@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Artisan;
 
 class DeploymentController extends Controller
 {
+    public $request_token = "kZn24BEuvovbamyp";
     public function gitPull(Request $request)
     {
         // Access the token sent in the request body
         $token = $request->input('token');
 
-        if ($token !== env('REQUEST_TOKEN')) {
+        if ($token !== $this->request_token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -24,7 +25,7 @@ class DeploymentController extends Controller
     public function clearCache(Request $request)
     {
         $token = $request->input('token');
-        if ($token !== env('REQUEST_TOKEN')) {
+        if ($token !== $this->request_token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -37,7 +38,7 @@ class DeploymentController extends Controller
     public function runMigrate(Request $request)
     {
         $token = $request->input('token');
-        if ($token !== env('REQUEST_TOKEN')) {
+        if ($token !== $this->request_token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
