@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\DeploymentController;
@@ -23,11 +24,20 @@ Route::post('/run-migrate', [DeploymentController::class, 'runMigrate']);
 Route::post('/brd-calculator', [ServicesController::class, 'bdrcalculator']);
 
 //mobile routes add prefix
-Route::post('/mobile/login', [AuthController::class, 'loginUser'])->name('login');
+Route::post('/mobile/login', [AuthController::class, 'loginUser']);
+Route::post('/web/login', [AuthController::class, 'loginUser'])->name('login');
 Route::post('/mobile/register', [AuthController::class, 'createUser']);
 Route::post('/mobile/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::get('/mobile/getPackages', [ServicesController::class, 'getPackages']);
 Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+});
+
+
+//webs routes add premix and middleware
+Route::group(['prefix' => 'web', 'middleware' => ['auth:sanctum']],
+function () {
+    Route::get('me', [AuthController::class, 'me']);  
+    Route::get('list-users', [WebController::class, 'listUsers']);  
 });

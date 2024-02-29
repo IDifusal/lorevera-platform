@@ -24,17 +24,17 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-CiWbtBBw.js",
+    "file": "assets/app-CzMbWNf7.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
-      "resources/js/views/Dashboard.vue",
       "resources/js/views/Login.vue",
+      "resources/js/views/Dashboard.vue",
       "resources/js/views/Users/ListUsers.vue",
       "resources/js/views/Support/ListSupport.vue"
     ],
     "css": [
-      "assets/app-DHVSrANA.css"
+      "assets/app-kazltDiA.css"
     ],
     "assets": [
       "assets/materialdesignicons-webfont-CSr8KVlo.eot",
@@ -44,19 +44,18 @@
     ]
   },
   "resources/js/views/Dashboard.vue": {
-    "file": "assets/Dashboard-DSKMp_pp.js",
+    "file": "assets/Dashboard-BrAI2iXt.js",
     "src": "resources/js/views/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
-      "resources/js/app.js",
-      "__plugin-vue_export-helper-DlAUqK2U.js"
+      "resources/js/app.js"
     ],
     "css": [
       "assets/Dashboard-Dmq4khPC.css"
     ]
   },
   "resources/js/views/Login.vue": {
-    "file": "assets/Login-Dt3J82Zi.js",
+    "file": "assets/Login-CpKpr7nn.js",
     "src": "resources/js/views/Login.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -64,11 +63,11 @@
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
-      "assets/Login-BnW1tV4Z.css"
+      "assets/Login-jSDy1FAE.css"
     ]
   },
   "resources/js/views/Support/ListSupport.vue": {
-    "file": "assets/ListSupport-CtifohNW.js",
+    "file": "assets/ListSupport-qn-jUGEw.js",
     "src": "resources/js/views/Support/ListSupport.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -77,7 +76,7 @@
     ]
   },
   "resources/js/views/Users/ListUsers.vue": {
-    "file": "assets/ListUsers-DlCU7JF6.js",
+    "file": "assets/ListUsers-D4CCY5X8.js",
     "src": "resources/js/views/Users/ListUsers.vue",
     "isDynamicEntry": true,
     "imports": [

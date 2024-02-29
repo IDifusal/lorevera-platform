@@ -18,7 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->json('charges')->nullable(); 
             $table->timestamps();
             $table->unsignedBigInteger('customer_id')->nullable();
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('customer_id')->references('id')->on('users');
         });
     }
 

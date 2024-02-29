@@ -122,6 +122,62 @@ class AuthController extends Controller
             ], 400);
         }
     }
+
+    public function loginUserWebsite(Request $request){
+        try {
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required'
+                ]
+            );
+    
+            if ($validateUser->fails() ) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+    
+            // Attempt to authenticate the user using the provided credentials
+            if (!Auth::attempt($request->only(['email', 'password']))) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'EMAIL_PASSWORD_WRONG',
+                ], 401);
+            }
+    
+            // Retrieve the authenticated user
+            $user = Auth::user();
+    
+            // Check if the user has the admin flag set
+            if ($user->isadmin != 1) {
+                // If the user is not an admin, log them out and return an error response
+                Auth::logout();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'ACCESS_DENIED_NOT_ADMIN',
+                ], 403);
+            }
+    
+            // If the user is an admin, proceed to return the success response
+            return response()->json([
+                'status' => true,
+                'message' => 'User Logged In Successfully',
+                'user' => $user->name,
+                'token' => $user->createToken("API TOKEN")->plainTextToken
+            ], 200);
+    
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 400);
+        }
+    }
+    
     /**
      * Get the authenticated User.
      */

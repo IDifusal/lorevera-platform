@@ -1,6 +1,6 @@
 <template>
     <v-layout class="rounded rounded-md">
-        <v-navigation-drawer color="lorevera" v-model="drawer" app>
+        <v-navigation-drawer color="lorevera" v-model="drawer" app v-if="isUserLoggedIn">
             <v-btn
                 elevation="0"
                 color="lorevera"
@@ -17,11 +17,11 @@
                     v-for="item in itemsMenu"
                     :key="item.name"
                     :value="item.link"
-                    :to="item.link"
+                    :to="item.link ?? null"
                     @click="toggleSubItems(item)"
                 >
                     <div class="d-flex">
-                        <v-icon size="large" :icon="item.icon"></v-icon>
+                        <v-icon size="large" :icon="item.icon" class="mr-2"></v-icon>
                         {{ item.name }}
                     </div>
                     <template v-if="item.childs">
@@ -37,7 +37,7 @@
             </v-list>
         </v-navigation-drawer>
   
-      <v-app-bar app>
+      <v-app-bar app v-if="isUserLoggedIn">
             <v-app-bar-nav-icon
                 v-if="!drawer"
                 @click="toggleSidebar"
@@ -59,9 +59,12 @@ main.v-main {
 </style>
 
 <script setup>
-import { ref } from "vue";
+import { ref,computed } from "vue";
 const drawer = ref(true);
-
+import { useUserStore } from "../js/store/user.store"; 
+const userStore = useUserStore();
+userStore.fetchUser();
+const isUserLoggedIn = computed(() => userStore.isUserLoggedIn);
 const itemsMenu = [
     {
         name: "Dashboard",
@@ -70,8 +73,8 @@ const itemsMenu = [
     },
     {
         name: "Users",
-        icon: "mdi-apps-box",
-        link: "/users/list-users",
+        icon: "mdi-account-group",
+        link: null,
         permitions: false,
         childs: [
             {
@@ -82,6 +85,30 @@ const itemsMenu = [
                 name: "Report of users",
                 link: "/users/report-users",
             },
+        ],
+    },
+    {
+        name:"Packages",
+        icon: "mdi-package-variant-closed",
+        link: "/packages",
+        childs: [
+            {
+                name: "List of packages",
+                link: "/packages/",
+            },
+            {
+                name: "Workouts",
+                link: "/packages/workouts",
+            },            
+            {
+                name: "Exercises",
+                link: "/packages/exercises",
+            },
+
+            {
+                name:"Equipment",
+                link: "/packages/equipment",
+            }
         ],
     },
     {

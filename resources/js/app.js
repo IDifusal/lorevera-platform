@@ -1,12 +1,18 @@
 import './bootstrap';
-import {createApp} from 'vue'
+import {createApp,markRaw} from 'vue'
 
 import App from './App.vue'
+import { createPinia } from 'pinia';
+const pinia = createPinia()
+pinia.use(({ store }) => {
+    store.router = markRaw(router)
+})
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import * as labsComponents from 'vuetify/labs/components'
 import router from './router';
 import '@mdi/font/css/materialdesignicons.css'
 const harperTheme = {
@@ -24,7 +30,10 @@ const harperTheme = {
     }
 }
 const vuetify = createVuetify({
-    components,
+    components:{
+        ...components,
+        ...labsComponents
+    },
     directives,
     theme: {
         defaultTheme: 'harperTheme',
@@ -34,4 +43,16 @@ const vuetify = createVuetify({
     }
 
 });
-createApp(App).use(vuetify).use(router).mount("#app")
+createApp(App).use(pinia).use(vuetify).use(router).mount("#app")
+
+axios.interceptors.request.use(
+    config => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    error => {
+        Promise.reject(error)
+    });
