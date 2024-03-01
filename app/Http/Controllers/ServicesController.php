@@ -39,7 +39,7 @@ class ServicesController extends Controller
     //IDS AS STRING, duration_of_workout
     public function getPackages(){
         return response()->json([
-           "data"=> [
+           "data"=> [[
                 "id" => 1,
                 "name" => "Ultimate Fitness Challenge",
                 "price" => 150.00,
@@ -98,7 +98,7 @@ class ServicesController extends Controller
                             ]
                         ]
                     ]
-                ]
+                ]]
                             ],
                             "total"=> 1,
                             "current_page"=>1,
