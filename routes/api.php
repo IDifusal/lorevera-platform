@@ -29,6 +29,7 @@ Route::post('/web/login', [AuthController::class, 'loginUser'])->name('login');
 Route::post('/mobile/register', [AuthController::class, 'createUser']);
 Route::post('/mobile/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::get('/mobile/getPackages', [ServicesController::class, 'getPackages']);
+Route::get('/mobile/get-analytics-weigth',[ServicesController::class,'getUserWeightsBy']);
 Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);

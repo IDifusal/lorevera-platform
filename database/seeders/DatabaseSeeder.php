@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {    
         $timestamps = date('Y-m-d H:i:s');
 
         DB::table('users')->insert([
@@ -31,6 +31,10 @@ class DatabaseSeeder extends Seeder
             'isadmin'=>1,
             'created_at'=>$timestamps,
             'password' => Hash::make('loreveraFIT')
+        ]);
+
+        $this->call([
+            UserWeightsTableSeeder::class,
         ]);
     }
 }
