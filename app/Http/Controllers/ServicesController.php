@@ -62,7 +62,7 @@ class ServicesController extends Controller
     public function getPackages()
     {
         return response()->json([
-            "data" => [
+           "data"=> [[
                 "id" => 1,
                 "name" => "Build Your Glutes  from Home",
                 "price" => 150.00,
@@ -158,11 +158,11 @@ class ServicesController extends Controller
                             ]
                         ]
                     ]
-                ]
-            ],
-            "total" => 1,
-            "current_page" => 1,
-            "per_page" => 10
+                ]]
+                            ],
+                            "total"=> 1,
+                            "current_page"=>1,
+                            "per_page"=> 10
         ]);
     }
 
