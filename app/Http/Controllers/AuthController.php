@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\ResetCodeEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -212,4 +215,61 @@ class AuthController extends Controller
     {
         return $this->respondWithToken(auth()->refresh());
     }
+    public function requestReset(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->email)->firstOrFail();
+
+        // Generate a 6-digit code
+        $code = rand(100000, 999999);
+
+        // Store the code and user association, consider using a dedicated table
+        DB::table('password_resets')->updateOrInsert(
+            ['email' => $user->email],
+            ['token' => $code, 'created_at' => now()]
+        );
+
+        // Send the code via email
+        Mail::to($user->email)->send(new ResetCodeEmail($code));
+
+        return response()->json(['message' => 'Reset code sent to your email.']);
+    }
+
+    public function validateReset(Request $request)
+    {
+        // Custom validation response
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'code' => 'required|digits:6',
+        ]);
+    
+        if ($validator->fails()) {
+            // This keeps the error within the 422 status code range
+            throw new ValidationException($validator);
+        }
+    
+        try {
+            $reset = DB::table('password_resets')
+                        ->where('email', $request->email)
+                        ->where('token', $request->code)
+                        ->first();
+    
+            if (!$reset || now()->subMinutes(60)->gt($reset->created_at)) {
+                // This is still a client error, not a server error, hence 422 is appropriate
+                return response()->json(['message' => 'Invalid or expired code.'], 422);
+            }
+    
+            // Proceed to update the user's password
+            // $user = User::where('email', $request->email)->firstOrFail();
+    
+            // Optionally, delete the reset record to invalidate the code
+            DB::table('password_resets')->where('email', $request->email)->delete();
+    
+            return response()->json(['message' => 'Code validated.']);
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            return response()->json(['message' => 'An unexpected error occurred.'], 500);
+        }
+    }  
 }

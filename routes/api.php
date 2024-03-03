@@ -27,7 +27,9 @@ Route::post('/brd-calculator', [ServicesController::class, 'bdrcalculator']);
 Route::post('/mobile/login', [AuthController::class, 'loginUser']);
 Route::post('/web/login', [AuthController::class, 'loginUser'])->name('login');
 Route::post('/mobile/register', [AuthController::class, 'createUser']);
-Route::post('/mobile/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/mobile/reset/request', [AuthController::class,'requestReset']);
+Route::post('/mobile/reset/validate', [AuthController::class,'validateReset']);
+
 Route::get('/mobile/getPackages', [ServicesController::class, 'getPackages']);
 Route::get('/mobile/get-analytics-weigth',[ServicesController::class,'getUserWeightsBy']);
 Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
