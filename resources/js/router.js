@@ -26,7 +26,13 @@ const routes = [
         name: "support",
         component: () => import("../js/views/Support/ListSupport.vue"),
         meta: { auth: true },
-    }
+    },
+    {
+        path: "/packages/equipment",
+        name: "equipment",
+        component: () => import("../js/views/Equipment/ListEquipment.vue"),
+        meta: { auth: true },
+    }    
 ];
 const router = createRouter({
     history: createWebHistory(),

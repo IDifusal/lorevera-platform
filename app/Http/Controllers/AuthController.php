@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
+use Illuminate\Support\Str;
 use App\Mail\ResetCodeEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
@@ -221,16 +224,13 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->firstOrFail();
 
-        // Generate a 6-digit code
         $code = rand(100000, 999999);
 
-        // Store the code and user association, consider using a dedicated table
         DB::table('password_resets')->updateOrInsert(
             ['email' => $user->email],
             ['token' => $code, 'created_at' => now()]
         );
 
-        // Send the code via email
         Mail::to($user->email)->send(new ResetCodeEmail($code));
 
         return response()->json(['message' => 'Reset code sent to your email.']);
@@ -238,38 +238,63 @@ class AuthController extends Controller
 
     public function validateReset(Request $request)
     {
-        // Custom validation response
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'email' => 'required|email',
             'code' => 'required|digits:6',
         ]);
     
-        if ($validator->fails()) {
-            // This keeps the error within the 422 status code range
-            throw new ValidationException($validator);
+        $reset = DB::table('password_resets')
+                    ->where('email', $request->email)
+                    ->where('token', $request->code)
+                    ->first();
+    
+        if (!$reset || now()->subMinutes(60)->gt($reset->created_at)) {
+            return response()->json(['message' => 'Invalid or expired code.'], 422);
         }
+    
+        // Generate a secure token for the password change process
+        $passwordChangeToken = Str::random(60);
+        DB::table('password_resets')->where('email', $request->email)->update(['change_token' => $passwordChangeToken, 'token_expires_at' => now()->addMinutes(30)]);
+    
+        return response()->json(['message' => 'Code validated. Proceed to change password.', 'change_token' => $passwordChangeToken]);
+    }
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'change_token' => 'required',
+            'password' => 'required|min:4',
+        ]);
     
         try {
             $reset = DB::table('password_resets')
-                        ->where('email', $request->email)
-                        ->where('token', $request->code)
+                        ->where('change_token', $request->change_token)
+                        ->where('token_expires_at', '>', now())
                         ->first();
     
-            if (!$reset || now()->subMinutes(60)->gt($reset->created_at)) {
-                // This is still a client error, not a server error, hence 422 is appropriate
-                return response()->json(['message' => 'Invalid or expired code.'], 422);
+            if (!$reset) {
+                return response()->json(['message' => 'Invalid or expired token.'], 422);
             }
     
-            // Proceed to update the user's password
-            // $user = User::where('email', $request->email)->firstOrFail();
+            $user = User::where('email', $reset->email)->first();
+            if (!$user) {
+                // Handle the case where no user is found for the email
+                return response()->json(['message' => 'User not found.'], 404);
+            }
     
-            // Optionally, delete the reset record to invalidate the code
-            DB::table('password_resets')->where('email', $request->email)->delete();
+            $user->password = Hash::make($request->password);
+            $user->save();
     
-            return response()->json(['message' => 'Code validated.']);
-        } catch (\Exception $e) {
-            // Log the error or handle it as needed
-            return response()->json(['message' => 'An unexpected error occurred.'], 500);
+            // Clean up after successful password change
+            DB::table('password_resets')->where('email', $reset->email)->delete();
+    
+            return response()->json(['message' => 'Password has been successfully changed.']);
+        } catch (Exception $e) {
+            // Log the error for debugging purposes
+            Log::error('Password change error: '.$e->getMessage());
+    
+            // Respond with a generic error message
+            // Consider using a more specific status code based on the caught exception type if needed
+            return response()->json(['message' => 'An error occurred while processing your request.'], 500);
         }
     }  
 }

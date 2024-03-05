@@ -44,16 +44,7 @@ class ServicesController extends Controller
 
         $weights = UserWeight::select('date', 'weight')
             // ->where('user_id', $userId)
-            ->get()
-            ->groupBy(function ($date) use ($groupBy) {
-                if ($groupBy == 'week') {
-                    return Carbon::parse($date->date)->startOfWeek()->toDateString();
-                } elseif ($groupBy == 'month') {
-                    return Carbon::parse($date->date)->format('Y-m');
-                } elseif ($groupBy == 'year') {
-                    return Carbon::parse($date->date)->format('Y');
-                }
-            });
+            ->get();
 
         return response()->json($weights);
     }
@@ -65,11 +56,13 @@ class ServicesController extends Controller
             "data" => [
                 [
                     "id" => 1,
-                    "name" => "Build Your Glutes  from Home",
+                    "pre_name" => "Build Your Glutes  from Home",
+                    "package_name" => "Booty Blast.",
                     "price" => 150.00,
                     "has_access" => true,
+                    "isPublic"=> true,
                     "featured_image_url" => "https://lorevera.s3.us-east-1.amazonaws.com/images/lorevera-package.jpg",
-                    "description" => "<p<This 12-week at-home program focuses on toning and increasing the volume of your glutes and legs using resistance bands, a chair, a mat, and dumbbells. You'll achieve firmer, more defined, and voluminous glutes while improving leg strength and functionality, all from the comfort of your home</p>",
+                    "program_overview" => "<p<This 12-week at-home program focuses on toning and increasing the volume of your glutes and legs using resistance bands, a chair, a mat, and dumbbells. You'll achieve firmer, more defined, and voluminous glutes while improving leg strength and functionality, all from the comfort of your home</p>",
                     "program_introduction" => "<p>Transform Your Body, Transform Your Confidence<br>
 
                 In the pursuit of a healthier lifestyle and a better body, we often find ourselves desiring to tone and strengthen specific areas of our physique. The glutes, undoubtedly, are one of those areas that catch our attention and ignite the desire to enhance their appearance. However, not everyone has the time or convenience of regularly attending a gym. Don't worry! This glute program designed specifically for home use is the perfect solution for you.<br>
@@ -99,9 +92,9 @@ class ServicesController extends Controller
                 In addition to specific glute exercises, we also offer recommendations for cardiovascular exercises that complement your training program. A proper balance between resistance and cardio exercises will help you effectively reach your goals.<br>
                 
                 This program is designed not only to enhance the appearance of your glutes but also to provide you with a higher level of confidence and overall well-being. Get ready to embark on a personal transformation journey that will lead you to discover your best self!</p>",
+                    "duration_of_package"=>"12",
                     "duration_of_workout" => "60-90",
                     "duration_per_week" => "3-4",
-                    "duration_per_day" => "30-60",
                     "focus" => "Full Body",
                     "based" => "Home or Gym",
                     "exercises_groups" => [
@@ -111,6 +104,7 @@ class ServicesController extends Controller
                                 [
                                     "id" => 1,
                                     "name" => "Squat",
+                                    "isPublic"=> true,
                                     "featured_image_url" => "https://lorevera.s3.us-east-1.amazonaws.com/images/placeholder-exercise.jpg",
                                     "description" => "A fundamental exercise for lower body strength. Make sure to keep your back straight and knees in line with your feet.",
                                     "equipment" => [

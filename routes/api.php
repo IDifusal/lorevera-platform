@@ -17,6 +17,13 @@ use App\Http\Controllers\DeploymentController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+//webs routes add premix and middleware
+Route::group(['prefix' => 'web', 'middleware' => ['auth:sanctum']],
+function () {
+    Route::get('me', [AuthController::class, 'me']);  
+    Route::get('list-users', [WebController::class, 'listUsers']);  
+    Route::get('list-equipment',[WebController::class,'listEquipment']);
+});
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
 Route::post('/clear-cache', [DeploymentController::class, 'clearCache']);
@@ -29,6 +36,7 @@ Route::post('/web/login', [AuthController::class, 'loginUser'])->name('login');
 Route::post('/mobile/register', [AuthController::class, 'createUser']);
 Route::post('/mobile/reset/request', [AuthController::class,'requestReset']);
 Route::post('/mobile/reset/validate', [AuthController::class,'validateReset']);
+Route::post('/mobile/reset/change', [AuthController::class,'changePassword']);
 
 Route::get('/mobile/getPackages', [ServicesController::class, 'getPackages']);
 Route::get('/mobile/get-analytics-weigth',[ServicesController::class,'getUserWeightsBy']);
@@ -37,10 +45,3 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
 });
 
-
-//webs routes add premix and middleware
-Route::group(['prefix' => 'web', 'middleware' => ['auth:sanctum']],
-function () {
-    Route::get('me', [AuthController::class, 'me']);  
-    Route::get('list-users', [WebController::class, 'listUsers']);  
-});

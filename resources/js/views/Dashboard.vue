@@ -103,7 +103,7 @@ import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useUserStore } from "../store/user.store";
 const userStore = useUserStore();
-const name = userStore.user.name;
+const name = ref(userStore.user.name);
 const labels = ref(["12am", "3am", "6am", "9am", "12pm", "3pm", "6pm", "9pm"]);
 const value = ref([200, 675, 410, 390, 310, 460, 250, 240]);
 </script>
