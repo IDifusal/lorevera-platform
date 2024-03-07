@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
@@ -221,19 +222,26 @@ class AuthController extends Controller
     public function requestReset(Request $request)
     {
         $request->validate(['email' => 'required|email']);
-
-        $user = User::where('email', $request->email)->firstOrFail();
-
-        $code = rand(100000, 999999);
-
-        DB::table('password_resets')->updateOrInsert(
-            ['email' => $user->email],
-            ['token' => $code, 'created_at' => now()]
-        );
-
-        Mail::to($user->email)->send(new ResetCodeEmail($code));
-
-        return response()->json(['message' => 'Reset code sent to your email.']);
+        
+        try {
+            $user = User::where('email', $request->email)->firstOrFail();
+    
+            $code = rand(100000, 999999);
+    
+            DB::table('password_resets')->updateOrInsert(
+                ['email' => $user->email],
+                ['token' => $code, 'created_at' => now()]
+            );
+    
+            Mail::to($user->email)->send(new ResetCodeEmail($code));
+    
+            return response()->json(['message' => 'Reset code sent to your email.']);
+    
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Email not found.'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to send reset code.'], 500);
+        }
     }
 
     public function validateReset(Request $request)
