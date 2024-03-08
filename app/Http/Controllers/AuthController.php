@@ -21,7 +21,7 @@ use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
 
-    public function updateProfile(Request $request)
+    public function completeProfile(Request $request)
     {
         $user = Auth::user();
 
@@ -30,6 +30,7 @@ class AuthController extends Controller
             'weight' => $request->weight ?? '',
             'gender' => $request->gender ?? '',
             'birthdayDate' => $request->dob ?? '',
+            'profile_status' => 'complete'
         ]);
 
         return response()->json(['message' => 'Profile updated successfully'], 200);
@@ -286,8 +287,13 @@ class AuthController extends Controller
     
             // Clean up after successful password change
             DB::table('password_resets')->where('email', $reset->email)->delete();
+
+            $token = $user->createToken('authToken')->plainTextToken;            
     
-            return response()->json(['message' => 'Password has been successfully changed.']);
+            return response()->json([
+                'message' => 'Password has been successfully changed.',
+                'token' => $token
+            ]);
         } catch (Exception $e) {
             // Log the error for debugging purposes
             Log::error('Password change error: '.$e->getMessage());

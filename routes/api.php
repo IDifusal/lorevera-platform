@@ -42,6 +42,6 @@ Route::get('/mobile/getPackages', [ServicesController::class, 'getPackages']);
 Route::get('/mobile/get-analytics-weigth',[ServicesController::class,'getUserWeightsBy']);
 Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [AuthController::class, 'me']);
-    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('/complete-profile', [AuthController::class, 'completeProfile']);
 });
 
