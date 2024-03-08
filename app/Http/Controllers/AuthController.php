@@ -120,6 +120,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'User Logged In Successfully',
                 'user' => $user->name,
+                'profile_status'=>  $user->profile_status,
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
