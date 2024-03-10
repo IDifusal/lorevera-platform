@@ -10,11 +10,13 @@ class CreateExercisesTable extends Migration
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('exercise_group_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('type'); // 'warm_up' or 'workout'
-            $table->string('featured_image_url');
-            $table->text('description');
+            $table->string('image_url')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('reps');
+            $table->integer('sets');
+            $table->string('video_url')->nullable();
             $table->timestamps();
         });
     }

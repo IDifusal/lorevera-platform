@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Equipment;
+use App\Models\Exercises;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
-class EquipmentController extends Controller
+class WorkoutController extends Controller
 {
     public function list()
     {
-        $equipment = Equipment::all();
+        $equipment = Exercises::where('type', 'workout')->get();
         return response()->json(
             $equipment
         );
@@ -20,36 +19,47 @@ class EquipmentController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'reps' => 'required|integer',
+            'sets' => 'required|integer',
+            'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Asegura validación para imagen
+
         ]);
-
-        $path = null;
+    
+        $imagePath = null;
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            // Obtener el archivo de imagen del request
             $file = $request->file('image');
-            // Generar un nombre único para el archivo
             $fileName = time() . '_' . $file->getClientOriginalName();
-            // Almacenar la imagen en el disco público y obtener la ruta
-            // $path = $file->storeAs('equipment', $fileName, 'public');
-            $path = $request->file('image')->storeAs('equipment', $fileName, 'public');
-            // Almacenar solo el path relativo (sin 'storage/') en la base de datos
-            $path = str_replace('public/', '', $path);
+            $imagePath = $request->file('image')->storeAs('equipment', $fileName, 'public');
+            $imagePath = str_replace('public/', '/storage/', $imagePath); // Ajuste para obtener el path correcto
         }
-
-        $equipment = new Equipment;
+    
+        $videoPath = null;
+        
+        if ($request->hasFile('video') && $request->file('video')->isValid()) {
+            $file = $request->file('video');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $videoPath = $request->file('video')->storeAs('equipment', $fileName, 'public');
+            $videoPath = str_replace('public/', '/storage/', $videoPath); // Ajuste para obtener el path correcto
+        }
+    
+        $equipment = new Exercises;
         $equipment->name = $request->name;
-        $equipment->featured_image_url = $path;
+        $equipment->reps = $request->reps;
+        $equipment->sets = $request->sets;
+        $equipment->type = 'workout';
+        $equipment->image_url = $imagePath; // No necesitas el operador null coalescing aquí
+        $equipment->video_url = $videoPath; // Guarda correctamente el path del video
         $equipment->save();
-
+    
         return response()->json(['message' => 'Equipment created successfully!', 'equipment' => $equipment]);
     }
 
     public function delete($id)
     {
-        $equipment = Equipment::find($id);
+        $equipment = Exercises::find($id);
         if ($equipment) {
-            if ($equipment->featured_image_url) {
-                Storage::disk('public')->delete($equipment->featured_image_url);
+            if ($equipment->image_url) {
+                Storage::disk('public')->delete($equipment->image_url);
             }
             $equipment->delete();
             return response()->json(['message' => 'Equipment deleted successfully!']);
@@ -63,7 +73,7 @@ class EquipmentController extends Controller
             'name' => 'required|string',
         ]);
 
-        $equipment = Equipment::find($id);
+        $equipment = Exercises::find($id);
         if ($equipment) {
             $equipment->name = $request->name;
             if($request->remove_image == true){

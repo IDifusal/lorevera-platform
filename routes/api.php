@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\DeploymentController;
@@ -23,10 +24,16 @@ Route::group(['prefix' => 'web', 'middleware' => ['auth:sanctum']],
 function () {
     Route::get('me', [AuthController::class, 'me']);  
     Route::get('list-users', [WebController::class, 'listUsers']);  
-    Route::get('list-equipment',[EquipmentController::class,'listEquipment']);
-    Route::post('store-equipment',[EquipmentController::class,'storeEquipment']);
-    Route::delete('delete-equipment/{id}',[EquipmentController::class,'deleteEquipment']);
-    Route::post('update-equipment/{id}',[EquipmentController::class,'updateEquipment']);
+    Route::get('list-equipment',[EquipmentController::class,'list']);
+    Route::post('store-equipment',[EquipmentController::class,'store']);
+    Route::delete('delete-equipment/{id}',[EquipmentController::class,'delete']);
+    Route::post('update-equipment/{id}',[EquipmentController::class,'update']);
+
+    //Warmup routes
+    Route::get('list-warmup',[WorkoutController::class,'list']);
+    Route::post('store-warmup',[WorkoutController::class,'store']);
+    Route::delete('delete-warmup/{id}',[WorkoutController::class,'delete']);
+    Route::post('update-warmup/{id}',[WorkoutController::class,'update']);
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);

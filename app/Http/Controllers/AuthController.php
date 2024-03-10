@@ -25,15 +25,28 @@ class AuthController extends Controller
     public function completeProfile(Request $request)
     {
         $user = Auth::user();
-
+    
+        // Validate the incoming request
+        $request->validate([
+            'height.value' => 'required|numeric',
+            'height.unit' => 'required|in:cm,feet',
+            'weight.value' => 'required|numeric',
+            'weight.unit' => 'required|in:kg,pounds',
+            'gender' => 'required|string',
+            'birthdayDate' => 'required|date',
+        ]);
+    
+        // Store the actual value and the unit preference
         $user->update([
-            'height' => $request->height ?? '',
-            'weight' => $request->weight ?? '',
-            'gender' => $request->gender ?? '',
-            'birthdayDate' => $request->dob ?? '',
+            'height' => $request->input('height.value'),
+            'height_unit' => $request->input('height.unit'),
+            'weight' => $request->input('weight.value'),
+            'weight_unit' => $request->input('weight.unit'),
+            'gender' => $request->gender,
+            'birthdayDate' => $request->birthdayDate,
             'profile_status' => 'complete'
         ]);
-
+    
         return response()->json(['message' => 'Profile updated successfully'], 200);
     }
     /**

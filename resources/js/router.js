@@ -35,10 +35,16 @@ const routes = [
     },
     {
         path: "/packages/warm-up",
-        name: "equipment",
+        name: "warm-up-list",
         component: () => import("../js/views/WarmUp/ListWarmUp.vue"),
         meta: { auth: true },
-    }           
+    },
+    {
+        path: "/packages/warm-up/add",
+        name: "warm-up-add",
+        component: () => import("../js/views/WarmUp/Add.vue"),
+        meta: { auth: true },
+    }                      
 ];
 const router = createRouter({
     history: createWebHistory(),

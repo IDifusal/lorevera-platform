@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('profile_status')->default("incomplete");
             $table->rememberToken();
             $table->integer('phone')->nullable();
+            $table->string('weight_unit', 10)->default('kg');
+            $table->string('height_unit', 10)->default('cm');          
             $table->timestamps();
         });
     }
