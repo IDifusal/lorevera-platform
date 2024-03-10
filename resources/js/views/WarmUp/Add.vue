@@ -1,5 +1,5 @@
 <template>
-    <div>Creating New WarmUp</div>
+    <div>Creating New</div>
     <div class="form-group">
         <v-form ref="form" fast-fail @submit.prevent="createNewItem()">
             <label for="quantity">Name:</label>
