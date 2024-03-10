@@ -44,7 +44,13 @@ const routes = [
         name: "warm-up-add",
         component: () => import("../js/views/WarmUp/Add.vue"),
         meta: { auth: true },
-    }                      
+    },
+    {
+        path: "/packages/warm-up/edit/:id",
+        name: "warm-up-edit",
+        component: () => import("../js/views/WarmUp/Edit.vue"),
+        meta: { auth: true },
+    }                           
 ];
 const router = createRouter({
     history: createWebHistory(),

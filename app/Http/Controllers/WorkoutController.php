@@ -15,6 +15,15 @@ class WorkoutController extends Controller
             $equipment
         );
     }
+    public function details($id)
+    {
+        $equipment = Exercises::find($id);
+        if ($equipment) {
+            return response()->json($equipment);
+        } else {
+            return response()->json(['message' => 'Equipment not found!'], 404);
+        }
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -48,7 +57,8 @@ class WorkoutController extends Controller
         $equipment->sets = $request->sets;
         $equipment->type = 'workout';
         $equipment->image_url = $imagePath; // No necesitas el operador null coalescing aquí
-        $equipment->video_url = $videoPath; // Guarda correctamente el path del video
+        $equipment->video_url = $videoPath; 
+        $equipment->description = $request->content;
         $equipment->save();
     
         return response()->json(['message' => 'Equipment created successfully!', 'equipment' => $equipment]);

@@ -9,7 +9,6 @@ export default defineConfig({
     build: {
         outDir: 'dist',
     },
-    base: '/public/',
     publicDir: 'assets',
     plugins: [
         vue(),

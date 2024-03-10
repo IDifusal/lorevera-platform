@@ -25,6 +25,7 @@ class User extends Authenticatable
         'height_unit',
         'weight',
         'weight_unit',        
+        'profile_status'
     ];
 
     /**

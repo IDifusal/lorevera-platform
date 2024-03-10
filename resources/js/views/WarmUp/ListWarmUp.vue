@@ -71,9 +71,9 @@ const returnImagePath = (imageName) => {
 const items = ref([]);
 
 
-const editItem = (item) => {
-    editingItem.value = { ...item };
-    dialogEdit.value = true;
+const editItem = (itemId) => {
+    console.log(itemId);
+    router.push({ name: "warm-up-edit", params: { id: itemId.id } });
 };
 const deleteItem = async (id) => {
     try {

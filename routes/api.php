@@ -31,6 +31,7 @@ function () {
 
     //Warmup routes
     Route::get('list-warmup',[WorkoutController::class,'list']);
+    Route::get('list-warmup/{id}',[WorkoutController::class,'details']);
     Route::post('store-warmup',[WorkoutController::class,'store']);
     Route::delete('delete-warmup/{id}',[WorkoutController::class,'delete']);
     Route::post('update-warmup/{id}',[WorkoutController::class,'update']);
