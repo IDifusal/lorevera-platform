@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\DeploymentController;
 
 /*
@@ -22,7 +23,10 @@ Route::group(['prefix' => 'web', 'middleware' => ['auth:sanctum']],
 function () {
     Route::get('me', [AuthController::class, 'me']);  
     Route::get('list-users', [WebController::class, 'listUsers']);  
-    Route::get('list-equipment',[WebController::class,'listEquipment']);
+    Route::get('list-equipment',[EquipmentController::class,'listEquipment']);
+    Route::post('store-equipment',[EquipmentController::class,'storeEquipment']);
+    Route::delete('delete-equipment/{id}',[EquipmentController::class,'deleteEquipment']);
+    Route::post('update-equipment/{id}',[EquipmentController::class,'updateEquipment']);
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
