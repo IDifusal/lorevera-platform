@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use App\Models\UserWeight;
 use Illuminate\Support\Str;
 use App\Mail\ResetCodeEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +23,49 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class AuthController extends Controller
 {
 
+    public function addChargeWeight(Request $request)
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'weight' => 'required|numeric|min:1',
+            'date' => 'required|date', 
+        ]);
+    
+
+    
+        try {
+            // Attempt to find an existing weight entry on the same date for this user
+            $userWeight = UserWeight::where('user_id', $userId)->where('date', $request->date)->first();
+    
+            if (!$userWeight) {
+                // If no existing entry, create a new instance
+                $userWeight = new UserWeight();
+                $userWeight->user_id = $userId;
+                $userWeight->date = $validatedData['date'];
+            }
+    
+            // Update (or set) the weight
+            $userWeight->weight = $validatedData['weight'];
+    
+            // Save the entry
+            if ($userWeight->save()) {
+                return response()->json($userWeight, 200); // 200 OK or 201 Created can be used here
+            } else {
+                // In case saving fails for reasons other than validation
+                return response()->json([
+                    'message' => 'Failed to update the weight entry.',
+                ], 500); // 500 Internal Server Error
+            }
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur and return a generic error response
+            return response()->json([
+                'message' => 'An error occurred while processing your request.',
+                'error' => $e->getMessage(),
+            ], 500); // 500 Internal Server Error
+        }
+    }
     public function completeProfile(Request $request)
     {
         $user = Auth::user();

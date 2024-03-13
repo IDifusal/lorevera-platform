@@ -148,4 +148,10 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
-}</style>
+}
+label{
+    font-weight: bold;
+        display: block;
+        margin-top: 20px;
+}
+</style>

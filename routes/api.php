@@ -51,9 +51,13 @@ Route::post('/mobile/reset/validate', [AuthController::class,'validateReset']);
 Route::post('/mobile/reset/change', [AuthController::class,'changePassword']);
 
 Route::get('/mobile/getPackages', [ServicesController::class, 'getPackages']);
+Route::get('/mobile/getAnalyticsInfo',[ServicesController::class,'getAnalyticsInfo']);
+
 Route::get('/mobile/get-analytics-weigth',[ServicesController::class,'getUserWeightsBy']);
 Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/complete-profile', [AuthController::class, 'completeProfile']);
+    //Add new charge weight
+    Route::post('/add-charge-weight', [AuthController::class, 'addChargeWeight']);    
 });
 

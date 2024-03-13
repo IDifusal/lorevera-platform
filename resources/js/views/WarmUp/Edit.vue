@@ -1,5 +1,5 @@
 <template>
-    <div>Creating New</div>
+    <h2>Editing Workout {{ newItem.name }}</h2>
     <div class="form-group">
         <v-form ref="form" fast-fail @submit.prevent="createNewItem()">
             <label for="quantity">Name:</label>
@@ -9,7 +9,7 @@
                 single-line
                 :rules="[(v) => !!v || 'Item is required']"
             />
-            <v-row align="start" style="height: 150px" no-gutters ga>
+            <v-row align="start" no-gutters ga>
                 <v-col class="mr-5">
                     <label for="quantity">Reps:</label>
                     <v-text-field
@@ -36,12 +36,18 @@
             <v-row>
                 <v-col>
                     <label for="quantity">Image:</label>
-                    <UploadImage @cleanImg="clearImg" @changed="onFileChange" />
+                    <img
+                        v-if="newItem.image_url"
+                        :src=" '/storage/'+newItem.image_url"
+                        alt=""
+                        style="width: 80px; height: 80px; object-fit: contain"
+                    />
+                    <UploadImage v-else @cleanImg="clearImg" @changed="onFileChange" />
                 </v-col>
                 <v-col>
-                    <label for="video">Video:</label>
+                    <label for="video">Video:</label><br>
                     <video v-if="newItem.video_url" width="350" controls>
-                        <source :src=" '/storage/equipment/'+newItem.video_url" type="video/mp4" />
+                        <source :src=" '/storage/'+newItem.video_url" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
                     <UploadVideo v-else

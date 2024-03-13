@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\UserWeight;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ServicesController extends Controller
 {
@@ -48,6 +49,52 @@ class ServicesController extends Controller
 
         return response()->json($weights);
     }
+    public function getAnalyticsInfo(Request $request)
+    {
+        // $weights = UserWeight::select('date', 'weight')
+        // ->where('user_id', $userId)
+        // ->get();
+        // Static data for demonstration
+        $weights = [
+            [
+                "date" => "2021-01-01",
+                "weight" => 100
+            ],
+            [
+                "date" => "2021-02-01",
+                "weight" => 95
+            ]
+        ];
+        $hr = [
+            [
+                "date" => "2021-01-01",
+                "hr" => 100
+            ],
+            [
+                "date" => "2021-02-01",
+                "hr" => 95
+            ]
+        ];
+
+        $image_progress = [
+            [
+                "date" => "2021-01-01",
+                "image_url" => "https://placehold.co/400.jpg"
+            ],
+            [
+                "date" => "2021-02-01",
+                "image_url" => "https://placehold.co/400.jpg"
+            ]
+        ];
+
+        // Using response()->json() to correctly format the response
+        return response()->json([
+            'hr' => $hr,
+            'weights' => $weights,
+            'image_progress' => $image_progress
+        ]);
+    }
+
 
     //IDS AS STRING, duration_of_workout
     public function getPackages()
@@ -60,7 +107,7 @@ class ServicesController extends Controller
                     "package_name" => "Booty Blast.",
                     "price" => 150.00,
                     "has_access" => true,
-                    "isPublic"=> true,
+                    "isPublic" => true,
                     "featured_image_url" => "https://lorevera.s3.us-east-1.amazonaws.com/images/lorevera-package.jpg",
                     "program_overview" => "<p<This 12-week at-home program focuses on toning and increasing the volume of your glutes and legs using resistance bands, a chair, a mat, and dumbbells. You'll achieve firmer, more defined, and voluminous glutes while improving leg strength and functionality, all from the comfort of your home</p>",
                     "program_introduction" => "<p>Transform Your Body, Transform Your Confidence<br>
@@ -92,7 +139,7 @@ class ServicesController extends Controller
                 In addition to specific glute exercises, we also offer recommendations for cardiovascular exercises that complement your training program. A proper balance between resistance and cardio exercises will help you effectively reach your goals.<br>
                 
                 This program is designed not only to enhance the appearance of your glutes but also to provide you with a higher level of confidence and overall well-being. Get ready to embark on a personal transformation journey that will lead you to discover your best self!</p>",
-                    "duration_of_package"=>"12",
+                    "duration_of_package" => "12",
                     "duration_of_workout" => "60-90",
                     "duration_per_week" => "3-4",
                     "focus" => "Full Body",
@@ -104,7 +151,7 @@ class ServicesController extends Controller
                                 [
                                     "id" => 1,
                                     "name" => "Squat",
-                                    "isPublic"=> true,
+                                    "isPublic" => true,
                                     "featured_image_url" => "https://lorevera.s3.us-east-1.amazonaws.com/images/placeholder-exercise.jpg",
                                     "description" => "A fundamental exercise for lower body strength. Make sure to keep your back straight and knees in line with your feet.",
                                     "equipment" => [
