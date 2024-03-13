@@ -110,35 +110,26 @@ class ServicesController extends Controller
                     "isPublic" => true,
                     "featured_image_url" => "https://lorevera.s3.us-east-1.amazonaws.com/images/lorevera-package.jpg",
                     "program_overview" => "<p<This 12-week at-home program focuses on toning and increasing the volume of your glutes and legs using resistance bands, a chair, a mat, and dumbbells. You'll achieve firmer, more defined, and voluminous glutes while improving leg strength and functionality, all from the comfort of your home</p>",
-                    "program_introduction" => "<p>Transform Your Body, Transform Your Confidence<br>
+                    "program_introduction" => "<p>Transform Your Body, Transform Your Confidence</p>
 
-                In the pursuit of a healthier lifestyle and a better body, we often find ourselves desiring to tone and strengthen specific areas of our physique. The glutes, undoubtedly, are one of those areas that catch our attention and ignite the desire to enhance their appearance. However, not everyone has the time or convenience of regularly attending a gym. Don't worry! This glute program designed specifically for home use is the perfect solution for you.<br>
-                
-                Your Transformation in 12 Weeks<br>
-                
-                This 12-week workout program is tailored for individuals of all kinds who wish to transform the look and strength of their glutes without the need for expensive gym equipment. We will utilize simple yet effective tools such as dumbbells, resistance bands, a chair, and an exercise mat. With the right guidance and consistent commitment, you'll be on your way to stronger and more toned glutes in the comfort of your own home.<br>
-                
-                Proven Techniques for Real Results<br>
-                
-                This program is based on proven training techniques that have demonstrated their effectiveness in developing glute muscles. Each exercise has been carefully selected to maximize muscle growth and definition. Moreover, our focus is not only on aesthetics but also on functionality, enabling you to enjoy a more active and healthier life.<br>
-                
-                Warm-Up and Stretching: Take Care of Your Body<br>
-                
-                Before embarking on any workout, it is essential to properly prepare your body for the effort. Our program includes a warm-up and stretching section designed to minimize the risk of injuries and improve flexibility. A well-prepared body is the foundation of effective training.<br>
-                
-                Smart Nutrition: Combine Exercise and Diet<br>
-                
-                Nutrition plays a pivotal role in your quest for toned glutes. While we provide some general nutritional recommendations, it's important to emphasize that a personalized approach with the assistance of a nutrition professional is ideal. Our nutrition section offers you an initial guide to understanding the basic principles and making informed choices.<br>
-                
-                Progress Analytics: Track Your Evolution<br>
-                
-                We understand that tracking your progress is crucial to stay motivated and ensure you are progressing towards your goals. We provide tools and advice to help you measure your advancement over the 12 weeks.<br>
-                
-                Cardio for Balanced Fitness<br>
-                
-                In addition to specific glute exercises, we also offer recommendations for cardiovascular exercises that complement your training program. A proper balance between resistance and cardio exercises will help you effectively reach your goals.<br>
-                
-                This program is designed not only to enhance the appearance of your glutes but also to provide you with a higher level of confidence and overall well-being. Get ready to embark on a personal transformation journey that will lead you to discover your best self!</p>",
+                <p>In the pursuit of a healthier lifestyle and a better body, we often find ourselves desiring to tone and strengthen specific areas of our physique. The glutes, undoubtedly, are one of those areas that catch our attention and ignite the desire to enhance their appearance. However, not everyone has the time or convenience of regularly attending a gym. Don't worry! This glute program designed specifically for home use is the perfect solution for you.</p>
+                        <ul>
+                            <li>12-week program</li>
+                            <li>3-4 workouts per week</li>
+                            <li>60-90 minutes per workout</li>
+                            <li>Full-body focus</li>
+                            <li>Home or gym-based</li>
+                        </ul>
+                        <ol>
+                            <li>12-week program</li>
+                            <li>3-4 workouts per week</li>
+                            <li>60-90 minutes per workout</li>
+                            <li>Full-body focus</li>
+                            <li>Home or gym-based</li>
+                        </ol>
+                        <img src='https://lorevera.s3.us-east-1.amazonaws.com/images/lorevera-package.jpg' alt='Sample Image' />
+                        <a href='wwww.google.com'> Sample Link </a>
+                ",
                     "duration_of_package" => "12",
                     "duration_of_workout" => "60-90",
                     "duration_per_week" => "3-4",
