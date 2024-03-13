@@ -16,9 +16,11 @@ class ResetCodeEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($code)
+    public function __construct($code,$name,$ip)
     {
         $this->code = $code;
+        $this->name = $name;
+        $this->ip = $ip;
     }
 
     /**
@@ -40,6 +42,8 @@ class ResetCodeEmail extends Mailable
                     ->view('emails.resetCode')
                     ->with([
                         'code' => $this->code,
+                        'name' => $this->name,
+                        'ip' => $this->ip
                     ]);
     }
 

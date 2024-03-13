@@ -240,15 +240,15 @@ class AuthController extends Controller
         
         try {
             $user = User::where('email', $request->email)->firstOrFail();
-    
+            $ip = $request->ip();
             $code = rand(100000, 999999);
-    
+            $name = $user->name;    
             DB::table('password_resets')->updateOrInsert(
                 ['email' => $user->email],
                 ['token' => $code, 'created_at' => now()]
             );
     
-            Mail::to($user->email)->send(new ResetCodeEmail($code));
+            Mail::to($user->email)->send(new ResetCodeEmail($code,$name,$ip));
     
             return response()->json(['message' => 'Reset code sent to your email.']);
     
