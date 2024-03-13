@@ -208,7 +208,7 @@
                                             style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                             <div
                                                 style="font-family:Poppins;font-size:19px;line-height:23px;text-align:center;color:#000000;">
-                                                Hi {{$name}},<br>Here is the verification code to reset your<br>passowrd:
+                                                Hi {{$name}},<br>Here is the verification code to reset your<br>password:
                                             </div>
                                         </td>
                                     </tr>
