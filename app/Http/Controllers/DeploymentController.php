@@ -22,6 +22,15 @@ class DeploymentController extends Controller
         exec("git pull https://github.com/IDifusal/lorevera-platform", $output, $resultCode);
         return response()->json(['output' => $output, 'resultCode' => $resultCode]);
     }
+    public function optimizeRouter (Request $request)
+    {
+        $token = $request->input('token');
+        if ($token !== $this->request_token) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        Artisan::call('optimize', ['--quiet' => true, '--force' => true]);
+        return response()->json(['message' => 'Routes cached successfully']);
+    }
     public function clearCache(Request $request)
     {
         $token = $request->input('token');

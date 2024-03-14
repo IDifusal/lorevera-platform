@@ -27,23 +27,23 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
+        $currentDate = date('Y-m-d');
         // Validate the incoming request
         $validatedData = $request->validate([
-            'weight' => 'required|numeric|min:1',
-            'date' => 'required|date', 
+            'weight' => 'required|numeric|min:1'
         ]);
     
 
     
         try {
             // Attempt to find an existing weight entry on the same date for this user
-            $userWeight = UserWeight::where('user_id', $userId)->where('date', $request->date)->first();
+            $userWeight = UserWeight::where('user_id', $userId)->where('date', $currentDate)->first();
     
             if (!$userWeight) {
                 // If no existing entry, create a new instance
                 $userWeight = new UserWeight();
                 $userWeight->user_id = $userId;
-                $userWeight->date = $validatedData['date'];
+                $userWeight->date = $currentDate;
             }
     
             // Update (or set) the weight
