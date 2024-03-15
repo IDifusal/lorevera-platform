@@ -9,13 +9,14 @@ pinia.use(({ store }) => {
 })
 // Vuetify
 import 'vuetify/styles'
+import '../css/app.css'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import * as labsComponents from 'vuetify/labs/components'
 import router from './router';
 import '@mdi/font/css/materialdesignicons.css'
-const harperTheme = {
+const loreTheme = {
     dark: false,
     colors: {
         background: '#F5F5F5FF',
@@ -36,9 +37,9 @@ const vuetify = createVuetify({
     },
     directives,
     theme: {
-        defaultTheme: 'harperTheme',
+        defaultTheme: 'loreTheme',
         themes: {
-            harperTheme
+            loreTheme
         }
     }
 

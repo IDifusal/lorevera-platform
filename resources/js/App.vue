@@ -97,13 +97,17 @@ const itemsMenu = [
                 link: "/packages/",
             },
             {
+                name:"Days",
+                link: "/packages/days",
+            },            
+            {
                 name: "Warm Up",
                 link: "/packages/warm-up",
             },            
             {
                 name: "Workouts",
-                link: "/packages/workouts",
-            },            
+                link: "/packages/workout",
+            },
             {
                 name:"Equipment",
                 link: "/packages/equipment",

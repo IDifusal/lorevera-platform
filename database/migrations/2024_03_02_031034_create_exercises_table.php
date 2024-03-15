@@ -8,7 +8,7 @@ class CreateExercisesTable extends Migration
 {
     public function up()
     {
-        Schema::create('exercises', function (Blueprint $table) {
+        Schema::create('exercise', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('type'); // 'warm_up' or 'workout'
@@ -23,6 +23,6 @@ class CreateExercisesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('exercises');
+        Schema::dropIfExists('exercise');
     }
 }

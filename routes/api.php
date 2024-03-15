@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DaysController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
@@ -31,10 +32,15 @@ function () {
 
     //Warmup routes
     Route::get('list-warmup',[WorkoutController::class,'list']);
+    Route::get('list-workout',[WorkoutController::class,'listWorkout']);
     Route::get('list-warmup/{id}',[WorkoutController::class,'details']);
     Route::post('store-warmup',[WorkoutController::class,'store']);
     Route::delete('delete-warmup/{id}',[WorkoutController::class,'delete']);
     Route::post('update-warmup/{id}',[WorkoutController::class,'update']);
+    //Workout routes
+    //Days (Warmup and workouyt agrupation)
+    Route::get('list-days',[DaysController::class,'list']);
+    Route::post('store-day',[DaysController::class,'store']);
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);

@@ -1,0 +1,90 @@
+<template>
+    <div flex>
+        <h2>List Days</h2>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="goToAdd()">Add</v-btn>
+    </div>
+    <v-data-table
+        :headers="headers"
+        :items="items"
+        :items-per-page="100"
+        class="elevation-1 pt-5"
+    >
+        <template v-slot:item="props">
+            <tr>
+                <td>
+                    {{ props.item.id }}
+                </td>
+                <td>
+                    {{ props.item.title }}
+                </td>
+                <td>
+                    <v-btn color="primary" text @click="editItem(props.item)">
+                        Edit
+                    </v-btn>
+                    <v-btn
+                        color="error"
+                        text
+                        @click="deleteItem(props.item.id)"
+                    >
+                        Delete
+                    </v-btn>
+                </td>
+            </tr>
+        </template>
+    </v-data-table>
+</template>
+<script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const goToAdd = () => {
+    router.push({ name: "days-add" });
+};
+
+const headers = ref([
+    {
+        title: "id",
+        value: "id",
+    },
+    {
+        title: "Name",
+        align: "start",
+        sortable: false,
+        value: "title",
+    },
+    {
+        title: "Actions",
+        value: "actions",
+        sortable: false,
+    },
+]);
+
+const items = ref([]);
+
+
+const editItem = (itemId) => {
+    console.log(itemId);
+    router.push({ name: "warm-up-edit", params: { id: itemId.id } });
+};
+const deleteItem = async (id) => {
+    try {
+        await axios.delete(`/api/web/delete-equipment/${id}`);
+        items.value = items.value.filter((item) => item.id !== id);
+    } catch (error) {
+        console.error(error);
+    }
+};
+const refreshList = async () => {
+    try {
+        const { data } = await axios.get("/api/web/list-days");
+        items.value = data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+onMounted(async () => {
+    await refreshList();
+});
+</script>

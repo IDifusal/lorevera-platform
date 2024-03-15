@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Exercises;
+use App\Models\Exercise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,14 +10,21 @@ class WorkoutController extends Controller
 {
     public function list()
     {
-        $equipment = Exercises::where('type', 'workout')->get();
+        $equipment = Exercise::where('type', 'warmup')->get();
         return response()->json(
             $equipment
         );
     }
+    public function listWorkout()
+    {
+        $equipment = Exercise::where('type', 'workout')->get();
+        return response()->json(
+            $equipment
+        );
+    }    
     public function details($id)
     {
-        $equipment = Exercises::find($id);
+        $equipment = Exercise::find($id);
         if ($equipment) {
             return response()->json($equipment);
         } else {
@@ -51,11 +58,11 @@ class WorkoutController extends Controller
             $videoPath = str_replace('public/', '/storage/', $videoPath); // Ajuste para obtener el path correcto
         }
     
-        $equipment = new Exercises;
+        $equipment = new Exercise;
         $equipment->name = $request->name;
         $equipment->reps = $request->reps;
         $equipment->sets = $request->sets;
-        $equipment->type = 'workout';
+        $equipment->type = $request->type ?? 'workout';
         $equipment->image_url = $imagePath; // No necesitas el operador null coalescing aquí
         $equipment->video_url = $videoPath; 
         $equipment->description = $request->content;
@@ -66,7 +73,7 @@ class WorkoutController extends Controller
 
     public function delete($id)
     {
-        $equipment = Exercises::find($id);
+        $equipment = Exercise::find($id);
         if ($equipment) {
             if ($equipment->image_url) {
                 Storage::disk('public')->delete($equipment->image_url);
@@ -83,7 +90,7 @@ class WorkoutController extends Controller
             'name' => 'required|string',
         ]);
 
-        $equipment = Exercises::find($id);
+        $equipment = Exercise::find($id);
         if ($equipment) {
             $equipment->name = $request->name;
             if($request->remove_image == true){

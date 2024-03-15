@@ -91,7 +91,7 @@ const createNewItem = async () => {
     formData.append("reps", newItem.value.reps);
     formData.append("sets", newItem.value.sets);
     formData.append("content", editor.value.getHTML());
-    formData.append("type", "warmup");
+    formData.append("type", "workout");
     if (activeImageUpload.value) {
         formData.append("image", activeImageUpload.value);
     }

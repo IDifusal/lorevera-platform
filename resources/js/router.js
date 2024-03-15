@@ -34,9 +34,21 @@ const routes = [
         meta: { auth: true },
     },
     {
+        path: "/packages/days",
+        name: "days",
+        component: () => import("./views/Programs/Days/ListDays.vue"),
+        meta: { auth: true },
+    },    
+    {
+        path: "/packages/days/add",
+        name: "days-add",
+        component: () => import("./views/Programs/Days/AddDay.vue"),
+        meta: { auth: true },
+    },  
+    {
         path: "/packages/warm-up",
         name: "warm-up-list",
-        component: () => import("../js/views/WarmUp/ListWarmUp.vue"),
+        component: () => import("../js/views/WarmUp/List.vue"),
         meta: { auth: true },
     },
     {
@@ -45,6 +57,18 @@ const routes = [
         component: () => import("../js/views/WarmUp/Add.vue"),
         meta: { auth: true },
     },
+    {
+        path: "/packages/workout",
+        name: "workout-list",
+        component: () => import("../js/views/WorkOut/List.vue"),
+        meta: { auth: true },
+    },
+    {
+        path: "/packages/workout/add",
+        name: "workout-add",
+        component: () => import("../js/views/WorkOut/Add.vue"),
+        meta: { auth: true },
+    },    
     {
         path: "/packages/warm-up/edit/:id",
         name: "warm-up-edit",
