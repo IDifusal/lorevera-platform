@@ -49,6 +49,7 @@ function () {
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
 Route::post('/clear-cache', [DeploymentController::class, 'clearCache']);
 Route::post('/run-migrate', [DeploymentController::class, 'runMigrate']);
+Route::post('/optimize-router', [DeploymentController::class, 'optimizeRouter']);
 Route::post('/brd-calculator', [ServicesController::class, 'bdrcalculator']);
 
 //mobile routes add prefix
