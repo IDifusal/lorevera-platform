@@ -19,8 +19,7 @@ class AddAddressBirthdayHeightWeightGenderToUsersTable extends Migration
             $table->float('height')->nullable();
             $table->float('weight')->nullable();
             $table->string('gender')->nullable();
-            $table->string('imageURL')->nullable();            
-            $table->string('location')->nullable();                  
+            $table->string('imageURL')->nullable();                         
             $table->string('age')->nullable();                 
         });
     }
