@@ -28,7 +28,7 @@ class DeploymentController extends Controller
         if ($token !== $this->request_token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        Artisan::call('optimize', ['--quiet' => true, '--force' => true]);
+        Artisan::call('optimize');
         return response()->json(['message' => 'Routes cached successfully']);
     }
     public function clearCache(Request $request)
