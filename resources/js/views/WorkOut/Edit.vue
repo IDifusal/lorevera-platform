@@ -1,7 +1,7 @@
 <template>
     <h2>Editing Workout {{ newItem.name }}</h2>
     <div class="form-group">
-        <v-form ref="form" fast-fail @submit.prevent="createNewItem()">
+        <v-form ref="form" fast-fail @submit.prevent="editItem()">
             <label for="quantity">Name:</label>
             <v-text-field
                 v-model="newItem.name"
@@ -96,7 +96,7 @@ const editor = useEditor({
     extensions: [StarterKit],
 });
 
-const createNewItem = async () => {
+const editItem = async () => {
     if (!newItem.value.name || !newItem.value.reps || !newItem.value.sets) {
         return;
     }
@@ -113,7 +113,8 @@ const createNewItem = async () => {
         formData.append("video", activeVideoUpload.value);
     }
     try {
-        const response = await axios.post("/api/web/store-warmup", formData, {
+        const id = window.location.pathname.split("/").pop();        
+        const response = await axios.post(`/api/web/update-warmup/${id}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

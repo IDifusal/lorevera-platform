@@ -62,11 +62,12 @@ class EquipmentController extends Controller
         $request->validate([
             'name' => 'required|string',
         ]);
-
+    
         $equipment = Equipment::find($id);
         if ($equipment) {
             $equipment->name = $request->name;
-            if($request->remove_image == true){
+            // Explicitly compare $request->remove_image to the string "true"
+            if($request->remove_image === "true"){
                 $equipment->featured_image_url = null;
             }
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -79,7 +80,7 @@ class EquipmentController extends Controller
                 $path = str_replace('public/', '', $path);
                 $equipment->featured_image_url = $path;
             }
-
+    
             $equipment->save();
             return response()->json(['message' => 'Equipment updated successfully!', 'equipment' => $equipment]);
         } else {

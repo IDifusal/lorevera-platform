@@ -25,7 +25,7 @@
                     <v-btn
                         color="error"
                         text
-                        @click="deleteItem(props.item.id)"
+                        @click="deleteItemDialog(props.item.id)"
                     >
                         Delete
                     </v-btn>
@@ -33,6 +33,29 @@
             </tr>
         </template>
     </v-data-table>
+    <v-dialog
+      v-model="removeItem.dialog"
+      max-width="400"
+      persistent
+    >
+
+      <v-card
+        text="Are you sure you want to delete this item?"
+        title="This will delete the item permanently."
+      >
+        <template v-slot:actions>
+          <v-spacer></v-spacer>
+
+          <v-btn @click="removeItem.dialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="lorevera" @click="deleteItem()">
+            Confirm
+          </v-btn>
+        </template>
+      </v-card>
+    </v-dialog>       
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
@@ -42,7 +65,10 @@ const router = useRouter();
 const goToAdd = () => {
     router.push({ name: "days-add" });
 };
-
+const removeItem =ref({
+    dialog : false,
+    itemid:null
+})
 const headers = ref([
     {
         title: "id",
@@ -64,17 +90,26 @@ const headers = ref([
 const items = ref([]);
 
 
-const editItem = (itemId) => {
-    console.log(itemId);
-    router.push({ name: "warm-up-edit", params: { id: itemId.id } });
+const editItem = (item) => {
+    router.push({ name: "days-edit", params: { id: item.id,item:item } });
 };
-const deleteItem = async (id) => {
+const deleteItemDialog = (id) => {
+    console.log("delete item", id);
+    removeItem.value.dialog = true;
+    removeItem.value.itemid = id;
+};
+
+const deleteItem = async () => {
+    const id = removeItem.value.itemid;        
     try {
-        await axios.delete(`/api/web/delete-equipment/${id}`);
+        await axios.delete(`/api/web/delete-day/${id}`);
         items.value = items.value.filter((item) => item.id !== id);
+        removeItem.value.dialog = false;
+        removeItem.value.itemid = null;           
     } catch (error) {
         console.error(error);
     }
+
 };
 const refreshList = async () => {
     try {

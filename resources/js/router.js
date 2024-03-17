@@ -46,6 +46,12 @@ const routes = [
         meta: { auth: true },
     },  
     {
+        path: "/packages/days/edit/:id",
+        name: "days-edit",
+        component: () => import("./views/Programs/Days/EditDay.vue"),
+        meta: { auth: true },
+    },      
+    {
         path: "/packages/warm-up",
         name: "warm-up-list",
         component: () => import("../js/views/WarmUp/List.vue"),

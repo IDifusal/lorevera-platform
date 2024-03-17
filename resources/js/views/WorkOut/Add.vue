@@ -1,5 +1,5 @@
 <template>
-    <div>Creating New</div>
+    <div>Creating New WorkOut</div>
     <div class="form-group">
         <v-form ref="form" fast-fail @submit.prevent="createNewItem()">
             <label for="quantity">Name:</label>
@@ -105,7 +105,7 @@ const createNewItem = async () => {
             },
         });
         console.log(response);
-        router.push({ name: "warm-up-list" });
+        router.push({ name: "workout-list" });
     } catch (error) {
         console.log(error);
     }

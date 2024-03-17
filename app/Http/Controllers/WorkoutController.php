@@ -79,9 +79,9 @@ class WorkoutController extends Controller
                 Storage::disk('public')->delete($equipment->image_url);
             }
             $equipment->delete();
-            return response()->json(['message' => 'Equipment deleted successfully!']);
+            return response()->json(['message' => 'Exercise deleted successfully!']);
         } else {
-            return response()->json(['message' => 'Equipment not found!'], 404);
+            return response()->json(['message' => 'Exercise not found!'], 404);
         }
     }
     public function update(Request $request, $id)

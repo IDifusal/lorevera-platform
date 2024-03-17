@@ -37,10 +37,13 @@ function () {
     Route::post('store-warmup',[WorkoutController::class,'store']);
     Route::delete('delete-warmup/{id}',[WorkoutController::class,'delete']);
     Route::post('update-warmup/{id}',[WorkoutController::class,'update']);
-    //Workout routes
+    //Workout routesp
     //Days (Warmup and workouyt agrupation)
     Route::get('list-days',[DaysController::class,'list']);
     Route::post('store-day',[DaysController::class,'store']);
+    Route::get('get-day/{id}',[DaysController::class,'details']);
+    Route::delete('delete-day/{id}',[DaysController::class,'delete']);
+    Route::post('update-day/{id}',[DaysController::class,'update']);
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);

@@ -32,7 +32,7 @@
                     <v-btn
                         color="error"
                         text
-                        @click="deleteItem(props.item.id)"
+                        @click="deleteItemDialog(props.item.id)"
                     >
                         Delete
                     </v-btn>
@@ -87,6 +87,29 @@
             >Close Dialog</v-btn
         >
     </v-dialog>
+    <v-dialog
+      v-model="removeItem.dialog"
+      max-width="400"
+      persistent
+    >
+
+      <v-card
+        text="Are you sure you want to delete this item?"
+        title="This will delete the item permanently."
+      >
+        <template v-slot:actions>
+          <v-spacer></v-spacer>
+
+          <v-btn @click="removeItem.dialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="lorevera" @click="deleteItem()">
+            Confirm
+          </v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
 </template>
 <script setup>
 import UploadImage from "../../components/UploadImage.vue";
@@ -97,6 +120,10 @@ const dialogEdit = ref(false);
 const activeImageUpload = ref(null);
 const newItem = ref({});
 const editingItem = ref({});
+const removeItem =ref({
+    dialog : false,
+    itemid:null
+})
 const headers = ref([
     {
         title: "id",
@@ -118,6 +145,11 @@ const headers = ref([
         sortable: false,
     },
 ]);
+const deleteItemDialog = (id) => {
+    console.log("delete item", id);
+    removeItem.value.dialog = true;
+    removeItem.value.itemid = id;
+};
 
 const returnImagePath = (imageName) => {
     const baseUrl = `${window.location.protocol}//${window.location.host}`;
@@ -153,26 +185,36 @@ const createNewItem = async () => {
         console.error(error);
     }
 };
-const deleteItem = async (id) => {
+const deleteItem = async () => {
+    const id = removeItem.value.itemid;
     try {
         await axios.delete(`/api/web/delete-equipment/${id}`);
         items.value = items.value.filter((item) => item.id !== id);
     } catch (error) {
         console.error(error);
     }
+    removeItem.value.dialog = false;
+    removeItem.value.itemid = null;
 };
 const removeImageEdit = () => {
+    editingItem.value.imageRemoved = true;
     editingItem.value.featured_image_url = null;
 };
 const requestEditProduct = async () => {
     try {
         const formData = new FormData();
         formData.append("name", editingItem.value.name);
-        if (!editingItem.value.featured_image_url && !activeImageUpload.value) {
+        if (editingItem.value.imageRemoved && !activeImageUpload.value){
+            console.log("remove image");
             formData.append("remove_image", "true");
         }else{
+            console.log("not remove image");
             formData.append("remove_image", "false");
-            formData.append("image", activeImageUpload.value);
+            if (activeImageUpload.value) {
+                formData.append("image", activeImageUpload.value);
+            }else{
+                formData.append("image", editingItem.value.featured_image_url);
+            }
         }
         const { data } = await axios.post(
             `/api/web/update-equipment/${editingItem.value.id}`,
