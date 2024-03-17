@@ -5,11 +5,6 @@ import vuetify from 'vite-plugin-vuetify'
 
 
 export default defineConfig({
-    root: './',
-    build: {
-        outDir: 'dist',
-    },
-    publicDir: 'assets',
     plugins: [
         vue(),
         vuetify({ autoImport: true }),
