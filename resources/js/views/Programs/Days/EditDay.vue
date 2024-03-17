@@ -116,8 +116,6 @@ const editItem = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
-
-        console.log(response);
         router.push({ name: "days" });        
     } catch (error) {
         console.error(error);
