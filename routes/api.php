@@ -9,6 +9,7 @@ use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\DeploymentController;
+use App\Http\Controllers\ProgressImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,7 @@ function () {
     Route::post('store-warmup',[WorkoutController::class,'store']);
     Route::delete('delete-warmup/{id}',[WorkoutController::class,'delete']);
     Route::post('update-warmup/{id}',[WorkoutController::class,'update']);
-    //Workout routesp
+    //Workout routesps
     //Days (Warmup and workouyt agrupation)
     Route::get('list-days',[DaysController::class,'list']);
     Route::post('store-day',[DaysController::class,'store']);
@@ -69,5 +70,9 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::post('/complete-profile', [AuthController::class, 'completeProfile']);
     //Add new charge weight
     Route::post('/add-charge-weight', [AuthController::class, 'addChargeWeight']);    
+
+    //Images
+    Route::post('/store-image',[ProgressImageController::class,'storeImage']);
+    Route::get('/list-images',[ProgressImageController::class,'listImages']);    
 });
 
