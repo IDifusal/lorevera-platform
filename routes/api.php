@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaysController;
+use App\Http\Controllers\GoalController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
@@ -71,8 +72,12 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     //Add new charge weight
     Route::post('/add-charge-weight', [AuthController::class, 'addChargeWeight']);    
 
-    //Images
+    //Images    
     Route::post('/store-image',[ProgressImageController::class,'storeImage']);
     Route::get('/list-images',[ProgressImageController::class,'listImages']);    
+    //Goals
+    Route::get('/list-goal',[GoalController::class,'listGoal']);
+    Route::post('/store-goal',[GoalController::class,'storeGoal']);
+    Route::delete('/remove-goal/{id}',[GoalController::class,'removeGoal']);
 });
 
