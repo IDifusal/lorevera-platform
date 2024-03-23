@@ -41,10 +41,12 @@ class ServicesController extends Controller
     }
     public function getUserWeightsBy(Request $request)
     {
-        $groupBy = $request->query('groupBy', 'month'); // Default to month
+        $user = Auth::user();
+        $userId = $user->id;
 
         $weights = UserWeight::select('date', 'weight')
-            // ->where('user_id', $userId)
+            ->where('user_id', $userId)
+            ->orderBy('date', 'desc')
             ->get();
 
         return response()->json($weights);
