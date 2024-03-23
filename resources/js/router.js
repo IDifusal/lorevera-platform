@@ -28,6 +28,24 @@ const routes = [
         meta: { auth: true },
     },
     {
+        path: "/packages/list-packages",
+        name: "packages-list",
+        component: () => import("../js/views/Programs/ListPrograms.vue"),
+        meta: { auth: true },
+    },    
+    {
+        path: "/programs/create",
+        name: "packages-create",
+        component: () => import("../js/views/Programs/CreateProgram.vue"),
+        meta: { auth: true },
+    },   
+    {
+        path: "/programs/create/:id ",
+        name: "packages-edit",
+        component: () => import("../js/views/Programs/CreateProgram.vue"),
+        meta: { auth: true },
+    },          
+    {
         path: "/packages/equipment",
         name: "equipment",
         component: () => import("../js/views/Equipment/ListEquipment.vue"),

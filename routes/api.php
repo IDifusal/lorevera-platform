@@ -10,6 +10,7 @@ use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\DeploymentController;
+use App\Http\Controllers\LimitationController;
 use App\Http\Controllers\ProgressImageController;
 
 /*
@@ -79,5 +80,11 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::get('/list-goal',[GoalController::class,'listGoal']);
     Route::post('/store-goal',[GoalController::class,'storeGoal']);
     Route::delete('/remove-goal/{id}',[GoalController::class,'removeGoal']);
+    //Limitations
+    Route::get('/list-limitation',[LimitationController::class,'listGoal']);
+    Route::post('/store-limitation',[LimitationController::class,'storeGoal']);
+    Route::delete('/remove-limitation/{id}',[LimitationController::class,'removeGoal']);    
+    //Info for modules
+    Route::get('/get-info-modules',[ServicesController::class,'getInfoModules']);
 });
 

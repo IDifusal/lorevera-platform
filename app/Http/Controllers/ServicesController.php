@@ -199,5 +199,17 @@ class ServicesController extends Controller
             "per_page" => 10
         ]);
     }
+    public function getInfoModules()
+    {
+        //Modules return html with dummy info, analytics,Goals, limitations, weight, how to measure, how to take photo
+        return response()->json([
+            "analytics"=> "<h1>Analytics</h1><p>Here you can see your progress</p>",
+            "goals"=> "<h1>Goals</h1><p>Here you can see your goals</p>",
+            "limitations"=> "<h1>Limitations</h1><p>Here you can see your limitations</p>",
+            "weight"=> "<h1>Weight</h1><p>Here you can see your weight</p>",
+            "how_to_measure"=> "<h1>How to measure</h1><p>Here you can see how to measure</p>",
+            "how_to_take_photo"=> "<h1>How to take photo</h1><p>Here you can see how to take photo</p>"
+        ]);
+    }
 
 }

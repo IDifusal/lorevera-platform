@@ -88,13 +88,13 @@ const itemsMenu = [
         ],
     },
     {
-        name:"Packages",
+        name:"Programs",
         icon: "mdi-package-variant-closed",
         link: "/packages",
         childs: [
             {
-                name: "List of packages",
-                link: "/packages/",
+                name: "List of programs",
+                link: "/packages/list-packages",
             },
             {
                 name:"Days",

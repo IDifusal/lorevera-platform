@@ -7,13 +7,13 @@ use App\Models\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class GoalController extends Controller
+class LimitationController extends Controller
 {
     public function listGoal()
     {
         try {
             $user = Auth::user();
-            $goals = Goal::where('user_id', $user->id)->where('type','goal')->get();
+            $goals = Goal::where('user_id', $user->id)->where('type','limitation')->get();
             return response()->json($goals, 200);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to list the goals: ' . $e->getMessage()], 500);
@@ -23,14 +23,14 @@ class GoalController extends Controller
     {
         try {
             $request->validate([
-                'goal_name' => 'required|string|max:255',
+                'limitation_name' => 'required|string|max:255',
             ]);
     
             $user = Auth::user();
             $goal = new Goal;
-            $goal->name = $request->goal_name;
+            $goal->name = $request->limitation_name;
             $goal->user_id = $user->id; 
-            $goal->type = 'goal';
+            $goal->type = 'limitation';
             $goal->save();
     
             return response()->json($goal, 201);

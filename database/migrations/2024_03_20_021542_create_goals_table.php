@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Link to the user
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
+            $table->enum('type', ['goal', 'limitation']);
             $table->string('name');
-            $table->timestamps(); // created_at will serve as the date of creation
+            $table->timestamps(); 
         });
     }
 
