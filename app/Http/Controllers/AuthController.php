@@ -73,7 +73,7 @@ class AuthController extends Controller
         // Validate the incoming request
         $request->validate([
             'height.value' => 'required|numeric',
-            'height.unit' => 'required|in:cm,feet',
+            'height.unit' => 'required|in:cm,ft',
             'weight.value' => 'required|numeric',
             'weight.unit' => 'required|in:kg,pounds',
             'gender' => 'required|string',
