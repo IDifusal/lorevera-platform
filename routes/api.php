@@ -82,6 +82,7 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::post('/store-goal',[GoalController::class,'storeGoal']);
     Route::delete('/remove-goal/{id}',[GoalController::class,'removeGoal']);
     //Limitations
+    Route::get('/default-limitations-goals',[LimitationController::class,'defaultValues']);
     Route::get('/list-limitation',[LimitationController::class,'listGoal']);
     Route::post('/store-limitation',[LimitationController::class,'storeGoal']);
     Route::delete('/remove-limitation/{id}',[LimitationController::class,'removeGoal']);    

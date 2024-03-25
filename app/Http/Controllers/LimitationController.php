@@ -53,5 +53,43 @@ class LimitationController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to remove the goal: ' . $e->getMessage()], 500);
         }
-    }    
+    }   
+    public function defaultValues()
+    {
+        return response()->json([
+            'limitations' => [
+                [
+                    'name' => 'No cold drink',
+                    'type' => 'limitation'
+                ],
+                [
+                    'name' => 'No sugar',
+                    'type' => 'limitation'
+                ],
+                [
+                    'name' => 'Sleep less than 8 hours',
+                    'type' => 'limitation'
+                ],
+                [
+                    'name' => 'Recude Processed food',
+                    'type' => 'limitation'
+                ]                
+            ],
+            'goals'=>[
+                [
+                    'name' => 'Gain muscle',
+                    'type' => 'goal'
+                ],
+                [
+                    'name' => 'Learn how to meal properly',
+                    'type' => 'goal'
+                ],
+                [
+                    'name' => 'Do my workout',
+                    'type' => 'goal'
+                ],                                
+
+            ]
+        ]);
+    } 
 }
