@@ -43,6 +43,15 @@ class DaysController extends Controller
             $item = new Day;
             $item->title = $request->title;
             $item->description = $request->content;
+            $imagePath = null;
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $file = $request->file('image');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $imagePath = $request->file('image')->storeAs('days', $fileName, 'public');
+                $imagePath = str_replace('public/', '/storage/', $imagePath); // Ajuste para obtener el path correcto
+            }
+            $item->image = $imagePath;
+        
             $item->save();
     
             if (!empty($request->equipment)) {

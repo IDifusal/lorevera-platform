@@ -6,6 +6,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaysController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
@@ -47,6 +48,9 @@ function () {
     Route::get('get-day/{id}',[DaysController::class,'details']);
     Route::delete('delete-day/{id}',[DaysController::class,'delete']);
     Route::post('update-day/{id}',[DaysController::class,'update']);
+    //Packages
+    Route::get('list-packages',[ProgramController::class,'listPackages']);
+    Route::post('store-package',[ProgramController::class,'storePackage']);
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);

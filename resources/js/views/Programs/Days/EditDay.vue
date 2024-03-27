@@ -10,6 +10,11 @@
         />
         <label for="quantity">Description:</label>
         <editor-content :editor="editor" />
+        <label for="quantity">Image:</label>
+        <img
+            style="width: 80px; height: 80px; object-fit: contain"
+            :src="returnImagePath(newItem.image)"
+        />
         <v-row>
             <v-col cols="4">
                 <label for="">Select Equipment</label>
@@ -40,7 +45,7 @@
                     item-value="id"
                     chips
                 ></v-select>
-            </v-col>            
+            </v-col>
         </v-row>
         <v-btn class="mt-10" color="lorevera" @click="editItem"
             >Save Changes</v-btn
@@ -76,6 +81,10 @@ const getEquipmentList = async () => {
         console.error(error);
     }
 };
+const returnImagePath = (imageName) => {
+    const baseUrl = `${window.location.protocol}//${window.location.host}`;
+    return `${baseUrl}/storage/${imageName}`;
+};
 const getWarmUpList = async () => {
     try {
         const { data } = await axios.get("/api/web/list-warmup");
@@ -110,13 +119,17 @@ const editItem = async () => {
     formData.append("warmUp", JSON.stringify(selectedWarmUp.value));
     formData.append("workout", JSON.stringify(selectedWorkout.value));
     try {
-        const id = window.location.pathname.split("/").pop();        
-        const response = await axios.post(`/api/web/update-day/${id}`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-        router.push({ name: "days" });        
+        const id = window.location.pathname.split("/").pop();
+        const response = await axios.post(
+            `/api/web/update-day/${id}`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        router.push({ name: "days" });
     } catch (error) {
         console.error(error);
     }
@@ -136,7 +149,6 @@ const getDay = async () => {
     }
 };
 onMounted(async () => {
-    
     await getEquipmentList();
     await getWarmUpList();
     await getWorkOutList();

@@ -9,7 +9,9 @@
             :rules="[(v) => !!v || 'Name is required']"
         />
         <label for="quantity">Description:</label>
-        <editor-content :editor="editor" />
+        <editor-content :editor="editor" />        
+        <label for="quantity">Image:</label>
+        <UploadImage @cleanImg="clearImg" @changed="onFileChange" />
         <v-row>
             <v-col cols="4">
                 <label for="">Select Equipment</label>
@@ -49,13 +51,21 @@
 </template>
 <script setup>
 import { useEditor, EditorContent } from "@tiptap/vue-3";
+import UploadImage from "../../../components/UploadImage.vue";
 import StarterKit from "@tiptap/starter-kit";
-
+import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
+const router = useRouter();
 const equipment = ref([]);
 const warmUp = ref([]);
 const workout = ref([]);
-
+const activeImageUpload = ref(null);
+const onFileChange = (file) => {
+    activeImageUpload.value = file[0];
+};
+const clearImg = () => {
+    activeImageUpload.value = null;
+};
 const editor = useEditor({
     content: "<p>Content <strong> add here</strong></p>",
     extensions: [StarterKit],
@@ -109,6 +119,9 @@ const createNewItem = async () => {
     formData.append("equipment", JSON.stringify(selectedEquipment.value));
     formData.append("warmUp", JSON.stringify(selectedWarmUp.value));
     formData.append("workout", JSON.stringify(selectedWorkout.value));
+    if (activeImageUpload.value) {
+        formData.append("image", activeImageUpload.value);
+    }    
     try {
         const response = await axios.post("/api/web/store-day", formData, {
             headers: {
@@ -116,6 +129,7 @@ const createNewItem = async () => {
             },
         });
         console.log(response);
+        router.push({ name: "days" });
     } catch (error) {
         console.error(error);
     }

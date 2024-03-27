@@ -16,12 +16,25 @@ class CreateProgramsTable extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->integer('price')->default(0);
-            $table->string('equipment')->nullable();
-            $table->string('photo')->nullable();
+
+            $table->decimal('price', 10, 2);
+            $table->string('featured_image')->nullable();
+            $table->string('tag')->nullable();
+            
+            $table->boolean('is_public')->default(false);
+            $table->boolean('has_access')->default(true);
+
+            $table->string('focus_image_url')->nullable();
+            $table->string('based_image_url')->nullable();
+            
+            $table->string('duration_per_workout');
+            $table->string('duration_per_week');
+            $table->string('focus');
+            $table->string('based');
+            $table->text('overview')->nullable(); 
+            $table->text('introduction')->nullable(); 
+                       
             $table->integer('delete')->default(0);
-            $table->string('items')->nullable();
             $table->timestamps();
         });
     }

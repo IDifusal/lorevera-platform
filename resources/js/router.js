@@ -32,17 +32,17 @@ const routes = [
         name: "packages-list",
         component: () => import("../js/views/Programs/ListPrograms.vue"),
         meta: { auth: true },
-    },    
-    {
-        path: "/programs/create",
-        name: "packages-create",
-        component: () => import("../js/views/Programs/CreateProgram.vue"),
-        meta: { auth: true },
     },   
     {
-        path: "/programs/create/:id ",
-        name: "packages-edit",
+        path: "/programs/add",
+        name: "packages-add",
         component: () => import("../js/views/Programs/CreateProgram.vue"),
+        meta: { auth: true },
+    },       
+    {
+        path: "/programs/edit/:id ",
+        name: "packages-edit",
+        component: () => import("../js/views/Programs/EditProgram.vue"),
         meta: { auth: true },
     },          
     {
