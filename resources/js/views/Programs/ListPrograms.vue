@@ -114,7 +114,7 @@ const deleteItem = async () => {
 };
 const refreshList = async () => {
   try {
-      const { data } = await axios.get("/api/web/list-warmup");
+      const { data } = await axios.get("/api/web/list-packages");
       items.value = data;
   } catch (error) {
       console.error(error);

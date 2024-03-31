@@ -14,7 +14,7 @@ class ProgramController extends Controller
     }
     public function storePackage (Request $request)
     {
-
+        info($request->daysWeek1);
         $package = new Program;
         $package->name = $request->name;
         $package->price = $request->price;
@@ -41,6 +41,24 @@ class ProgramController extends Controller
         $package->featured_image = $imagePath;
 
         $package->save();
+
+        if (!empty($request->daysWeek1)) {
+            // Convert the comma-separated string into an array
+            $daysWeek1 = explode(',', $request->daysWeek1);
+            // Create a week associated with this program
+            $week1 = $package->weeks()->create([
+                'week_number' => 1
+            ]);
+
+            // Attach days to the week
+            foreach ($daysWeek1 as $dayId) {
+                // Ensure $dayId is an integer if your IDs are numeric
+                $week1->days()->attach((int)$dayId);
+            }
+        }
+        $package->load('weeks.days');
+
+
 
         return response()->json($package, 201);
     }

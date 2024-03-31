@@ -115,6 +115,7 @@
                     />
                 </svg>
                 Focus
+                <UploadImage @cleanImg="clearImgFocus" @chasnged="onFileChangeFocus" />
                 <v-text-field
                     v-model="program.focus"
                     :rules="[rules.required]"
@@ -137,6 +138,7 @@
                     />
                 </svg>
                 Based
+                <UploadImage @cleanImg="clearImgBased" @changed="onFileChangeBased" />                
                 <v-text-field
                     v-model="program.based"
                     :rules="[rules.required]"
@@ -240,6 +242,21 @@ const onFileChange = (file) => {
 const clearImg = () => {
     activeImageUpload.value = null;
 };
+const imageUploadFocus = ref(null);
+const onFileChangeFocus = (file) => {
+    imageUploadFocus.value = file[0];
+};
+const clearImgFocus = () => {
+    imageUploadFocus.value = null;
+};
+const imageUploadBased = ref(null);
+const onFileChangeBased = (file) => {
+    imageUploadBased.value = file[0];
+};
+const clearImgBased = () => {
+    imageUploadBased.value = null;
+};
+
 const returnImagePath = (imageName) => {
     const baseUrl = `${window.location.protocol}//${window.location.host}`;
     return `${baseUrl}/storage/${imageName}`;
@@ -304,7 +321,9 @@ const createNewItem = async () => {
     formData.append("price", program.value.price);
     formData.append("overview", overview.value.getHTML());
     formData.append("introduction", introduction.value.getHTML());
-    formData.append("days", selectedDayGroup1.value);
+
+    const daysWeek1 = selectedDayGroup1.value.map((day) => day.id);
+    formData.append("daysWeek1", daysWeek1);
 
     if (activeImageUpload.value) {
         formData.append("image", activeImageUpload.value);
