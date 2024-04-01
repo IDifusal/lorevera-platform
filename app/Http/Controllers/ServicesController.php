@@ -13,26 +13,44 @@ class ServicesController extends Controller
     public function bdrcalculator(Request $request)
     {
         $age = (int) $request->age;
-        $heightInput = $request->height; // Height could be in cm or feet (e.g., 5'10")
-        $weight = (double) $request->weight; // Assuming weight is in kg, even if provided as a string
-
-        // Check if height is provided in feet and inches, and convert to cm if necessary
-        if (strpos($heightInput, '"') !== false) {
-            // Height is in feet and inches, e.g., 5'10"
-            [$feet, $inches] = explode("'", str_replace("\"", "", $heightInput));
-            $height = $this->convertFeetAndInchesToCentimeters((int) $feet, (int) $inches);
+    
+        // Correctly access the height and weight values and units
+        $heightUnit = $request->height['unit'];
+        $heightValue = (double) $request->height['value'];
+        $weightUnit = $request->weight['unit'];
+        $weightValue = (double) $request->weight['value'];
+    
+        // Convert height to centimeters if in feet
+        if ($heightUnit === 'ft') {
+            $height = $this->convertFeetToCentimeters($heightValue);
         } else {
-            // Height is assumed to be in centimeters
-            $height = (double) $heightInput;
+            $height = $heightValue;
         }
-
-        // BMR calculation (Mifflin-St Jeor Equation for men, example)
+    
+        // Convert weight to kg isf in pounds
+        if ($weightUnit === 'lb') {
+            $weight = $this->convertPoundsToKg($weightValue);
+        } else {
+            $weight = $weightValue;
+        }
+    
+        // BMR calculation (Mifflin-St Jeor Equation, assuming male for simplicity)
         $bmr = (10 * $weight) + (6.25 * $height) - (5 * $age) + 5;
-
+    
         // TDEE calculation with moderate activity level (activity factor of 1.55)
         $tdee = $bmr * 1.55;
-
+    
         return response()->json(['bmr' => $bmr, 'tdee' => $tdee]);
+    }
+    
+    private function convertFeetToCentimeters($feet)
+    {
+        return $feet * 30.48;
+    }
+    
+    private function convertPoundsToKg($pounds)
+    {
+        return $pounds * 0.453592;
     }
 
     protected function convertFeetAndInchesToCentimeters(int $feet, int $inches): float

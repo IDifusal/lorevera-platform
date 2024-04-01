@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
-    public function listPackages ()
+    public function listPackages()
     {
         $packages = Program::all();
         return response()->json($packages, 200);
     }
-    public function storePackage (Request $request)
+    public function storePackage(Request $request)
     {
         info($request->daysWeek1);
         $package = new Program;
@@ -41,25 +41,48 @@ class ProgramController extends Controller
         $package->featured_image = $imagePath;
 
         $package->save();
+        $weekKeys = json_decode($request->input('weekKeys'), true);
 
-        if (!empty($request->daysWeek1)) {
-            // Convert the comma-separated string into an array
-            $daysWeek1 = explode(',', $request->daysWeek1);
-            // Create a week associated with this program
-            $week1 = $package->weeks()->create([
-                'week_number' => 1
-            ]);
-
-            // Attach days to the week
-            foreach ($daysWeek1 as $dayId) {
-                // Ensure $dayId is an integer if your IDs are numeric
-                $week1->days()->attach((int)$dayId);
+        foreach ($weekKeys as $weekData) {
+            foreach ($weekData as $weekKey => $dayIds) {
+                // Extract the week number from the key (e.g., 'daysWeek1' -> 1)
+                $weekNumber = intval(substr($weekKey, 8)); // Adjust based on your key format
+                
+                // Create a week associated with this program/package
+                $week = $package->weeks()->create([
+                    'week_number' => $weekNumber
+                ]);
+                
+                // Attach days to the week
+                foreach ($dayIds as $dayId) {
+                    $week->days()->attach($dayId); // Attach dayId to the week
+                }
             }
         }
+        
         $package->load('weeks.days');
 
 
 
         return response()->json($package, 201);
+    }
+
+    public function detailsPackage($id)
+    {
+        // Retrieve the program with ordered weeks and days
+        $program = Program::with([
+            'weeks' => function ($query) {
+                // $query->orderBy('week_number', 'asc');
+            },
+            'weeks.days' => function ($query) {
+                // $query->orderBy('id'); 
+            }
+        ])->find($id);
+
+        if (!$program) {
+            return response()->json(['error' => 'Program not found'], 404);
+        }
+
+        return response()->json($program);
     }
 }

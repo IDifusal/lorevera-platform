@@ -28,7 +28,7 @@
                     required
                     flat
                 ></v-text-field>
-            </v-col>            
+            </v-col>
         </v-row>
         <v-row>
             <v-col>
@@ -115,7 +115,10 @@
                     />
                 </svg>
                 Focus
-                <UploadImage @cleanImg="clearImgFocus" @chasnged="onFileChangeFocus" />
+                <UploadImage
+                    @cleanImg="clearImgFocus"
+                    @chasnged="onFileChangeFocus"
+                />
                 <v-text-field
                     v-model="program.focus"
                     :rules="[rules.required]"
@@ -138,7 +141,10 @@
                     />
                 </svg>
                 Based
-                <UploadImage @cleanImg="clearImgBased" @changed="onFileChangeBased" />                
+                <UploadImage
+                    @cleanImg="clearImgBased"
+                    @changed="onFileChangeBased"
+                />
                 <v-text-field
                     v-model="program.based"
                     :rules="[rules.required]"
@@ -175,48 +181,50 @@
                 <editor-content :editor="introduction" />
             </v-col>
         </v-row>
-        <div class="h-10"></div>
-        <label for="">Week 1-4</label>
-        <v-select
-            v-model="selectedDayGroup1"
-            :items="days"
-            item-value="id"
-            multiple
-            outline
-            return-object
-        ></v-select>
-
-        <v-data-table
-            :items="selectedDayGroup1"
-            :items-per-page="100"
-            :headers="headers"
-            class="elevation-1 pt-5"
+        <div v-for="(week, index) in selectedDays" :key="week.id" class="mb-5">
+            <div style="height: 20px;" ></div>
+            <h3>Group # {{ index }}</h3>
+            <v-select
+                v-model="week.days"
+                :items="days"
+                item-value="id"
+                multiple
+                outline
+                return-object
+            ></v-select>
+            <v-data-table
+                :items="week.days"
+                :items-per-page="100"
+                :headers="headers"
+                class="elevation-1 pt-5"
+            >
+                <template v-slot:item="props">
+                    <tr>
+                        <td>{{ props.item.id }}</td>
+                        <td>Day # 0{{ props.index + 1 }}</td>
+                        <td>
+                            <img
+                                style="
+                                    width: 80px;
+                                    height: 80px;
+                                    object-fit: contain;
+                                "
+                                :src="returnImagePath(props.item.image)"
+                            />
+                        </td>
+                        <td>{{ props.item.title }}</td>
+                        <td>{{ props.item.name }}</td>
+                    </tr>
+                </template>
+            </v-data-table>
+        </div>
+        <v-btn
+            color="primary"
+            @click="addWeek()"
+            class="mt-5"
         >
-            <template v-slot:item="props">
-                <tr>
-                    <td>
-                        {{ props.item.id }}
-                    </td>
-                    <td>Day # 0{{ props.index + 1 }}</td>
-                    <td>
-                        <img
-                            style="
-                                width: 80px;
-                                height: 80px;
-                                object-fit: contain;
-                            "
-                            :src="returnImagePath(props.item.image)"
-                        />
-                    </td>
-                    <td>
-                        {{ props.item.title }}
-                    </td>
-                    <td>
-                        {{ props.item.name }}
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
+            Add Week
+        </v-btn>
         <v-btn
             color="primary"
             @click="createNewItem()"
@@ -285,10 +293,18 @@ const headers = ref([
         value: "name",
     },
 ]);
-const selectedDayGroup1 = ref([]);
-const selectedDayGroup2 = ref([]);
-const selectedDayGroup3 = ref([]);
-const selectedDayGroup4 = ref([]);
+const selectedDays = ref([
+    {
+        week: 1,
+        days: [],
+    },
+]);
+const addWeek = () => {
+    selectedDays.value.push({
+        week: selectedDays.value.length + 1,
+        days: [],
+    });
+};
 
 const overview = useEditor({
     content: "<p>Content <strong> add here</strong></p>",
@@ -311,6 +327,8 @@ const getDaysList = async () => {
 };
 const createNewItem = async () => {
     console.log("submited", program.value);
+
+    let errors = false;
     const formData = new FormData();
     formData.append("name", program.value.name);
     formData.append("tag", program.value.tag);
@@ -321,10 +339,24 @@ const createNewItem = async () => {
     formData.append("price", program.value.price);
     formData.append("overview", overview.value.getHTML());
     formData.append("introduction", introduction.value.getHTML());
+    let weekKeyList = [];
+    selectedDays.value.forEach((weekGroup, index) => {
+        if (weekGroup.days.length === 0) {
+            alert(`Please select at least one day for week ${weekGroup.week}`);
+            errors = true;
+            return; // Stop processing further if validation fails
+        }
 
-    const daysWeek1 = selectedDayGroup1.value.map((day) => day.id);
-    formData.append("daysWeek1", daysWeek1);
+        // If validation passes, prepare the days data for this week
+        const weekKey = `daysWeek${weekGroup.week}`; // Dynamic key based on week number
+        const dayIds = weekGroup.days.map(day => day.id); // Assuming each 'day' has an 'id'
+        weekKeyList.push( { [weekKey]: dayIds });
+    });
+    formData.append("weekKeys", JSON.stringify(weekKeyList)); // Append as JSON string
 
+    if (errors) {
+        return;
+    }
     if (activeImageUpload.value) {
         formData.append("image", activeImageUpload.value);
     }

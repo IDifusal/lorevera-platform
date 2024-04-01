@@ -51,6 +51,7 @@ function () {
     //Packages
     Route::get('list-packages',[ProgramController::class,'listPackages']);
     Route::post('store-package',[ProgramController::class,'storePackage']);
+    Route::get('get-package/{id}',[ProgramController::class,'detailsPackage']);
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
