@@ -12,11 +12,24 @@ class ProgramController extends Controller
         $packages = Program::all();
         return response()->json($packages, 200);
     }
+    public function deletePackage($id)
+    {
+        $package = Program::find($id);
+        if (!$package) {
+            return response()->json(['error' => 'Package not found'], 404);
+        }
+        $package->delete();
+        //unlink 
+
+        return response()->json(['message' => 'Package deleted'], 200);
+    }
     public function storePackage(Request $request)
     {
-        info($request->daysWeek1);
+
         $package = new Program;
         $package->name = $request->name;
+        $package->subtitle = $request->subtitle;
+        $package->tag = $request->tag;
         $package->price = $request->price;
         $package->featured_image = $request->featured_image;
         $package->is_public = $request->is_public;

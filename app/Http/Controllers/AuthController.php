@@ -22,7 +22,17 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
-
+    public function updateName(Request $request)
+    {
+        //validate name 
+        $request->validate([
+            'name' => 'required|string'
+        ]);
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->save();
+        return response()->json(['message' => 'Name updated successfully'], 200);
+    }
     public function addChargeWeight(Request $request)
     {
         $user = Auth::user();

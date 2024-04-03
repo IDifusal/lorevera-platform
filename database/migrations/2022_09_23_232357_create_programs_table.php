@@ -16,10 +16,11 @@ class CreateProgramsTable extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('subtitle')->nullable();
+            $table->string('tag')->nullable();
 
             $table->decimal('price', 10, 2);
             $table->string('featured_image')->nullable();
-            $table->string('tag')->nullable();
             
             $table->boolean('is_public')->default(false);
             $table->boolean('has_access')->default(true);

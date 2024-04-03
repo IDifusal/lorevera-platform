@@ -104,7 +104,7 @@ const deleteItemDialog = (id) => {
 const deleteItem = async () => {
   const id = removeItem.value.itemid;    
   try {
-      await axios.delete(`/api/web/delete-warmup/${id}`);
+      await axios.delete(`/api/web/delete-package/${id}`);
       items.value = items.value.filter((item) => item.id !== id);
   } catch (error) {
       console.error(error);

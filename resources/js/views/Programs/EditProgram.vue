@@ -6,7 +6,7 @@
       ref="form"
       id="create-form"
       v-model="valid"
-      @submit.prevent="createNewItem()"
+      @submit.prevent="updateItem()"
   >
       <v-row> 
           <v-col>
@@ -19,6 +19,16 @@
                   flat
               ></v-text-field>
           </v-col>
+          <v-col>
+                <h4>Sub name</h4>
+                <v-text-field
+                    v-model="program.subtitle"
+                    :rules="[rules.required]"
+                    class="field"
+                    required
+                    flat
+                ></v-text-field>
+            </v-col>             
           <v-col>
               <h4>Tag</h4>
               <v-text-field
@@ -325,8 +335,9 @@ const getDaysList = async () => {
       console.error(error);
   }
 };
-const createNewItem = async () => {
-  console.log("submited", program.value);
+const updateItem = async () => {
+
+    const id = window.location.pathname.split("/").pop();
 
   let errors = false;
   const formData = new FormData();
@@ -362,7 +373,7 @@ const createNewItem = async () => {
   }
 
   try {
-      const { data } = await axios.post("/api/web/store-package", formData);
+      const { data } = await axios.post(`/api/web/update-package/${id}`, formData);
       console.log(data);
       // router.push({ name: "Programs" });
   } catch (error) {

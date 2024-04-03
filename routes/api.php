@@ -6,6 +6,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaysController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ServicesController;
@@ -52,6 +53,8 @@ function () {
     Route::get('list-packages',[ProgramController::class,'listPackages']);
     Route::post('store-package',[ProgramController::class,'storePackage']);
     Route::get('get-package/{id}',[ProgramController::class,'detailsPackage']);
+    Route::delete('delete-package/{id}',[ProgramController::class,'deletePackage']);
+    Route::post('update-package/{id}',[ProgramController::class,'updatePackage']);  
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
@@ -75,6 +78,7 @@ Route::get('/mobile/getAnalyticsInfo',[ServicesController::class,'getAnalyticsIn
 Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/complete-profile', [AuthController::class, 'completeProfile']);
+    Route::post('/update-name', [AuthController::class, 'updateName']);   
     //Add new charge weight
     Route::get('/get-analytics-weigth',[ServicesController::class,'getUserWeightsBy']);    
     Route::post('/add-charge-weight', [AuthController::class, 'addChargeWeight']);    
@@ -93,5 +97,7 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::delete('/remove-limitation/{id}',[LimitationController::class,'removeGoal']);    
     //Info for modules
     Route::get('/get-info-modules',[ServicesController::class,'getInfoModules']);
+    //Help module
+    Route::post('/store-ticket',[TicketController::class,'store']);
 });
 

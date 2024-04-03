@@ -20,6 +20,16 @@
                 ></v-text-field>
             </v-col>
             <v-col>
+                <h4>Sub name</h4>
+                <v-text-field
+                    v-model="program.subtitle"
+                    :rules="[rules.required]"
+                    class="field"
+                    required
+                    flat
+                ></v-text-field>
+            </v-col>            
+            <v-col>
                 <h4>Tag</h4>
                 <v-text-field
                     v-model="program.tag"
@@ -331,6 +341,7 @@ const createNewItem = async () => {
     let errors = false;
     const formData = new FormData();
     formData.append("name", program.value.name);
+    formData.append("subtitle", program.value.subtitle);
     formData.append("tag", program.value.tag);
     formData.append("duration_per_workout", program.value.duration_per_workout);
     formData.append("duration_per_week", program.value.duration_per_week);
