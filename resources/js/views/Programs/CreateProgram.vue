@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-between">
-        <h3>Creating Program{{ program.name }}</h3>
+        <h3>Creating Program</h3>
     </div>
     <v-form
         ref="form"
@@ -127,7 +127,7 @@
                 Focus
                 <UploadImage
                     @cleanImg="clearImgFocus"
-                    @chasnged="onFileChangeFocus"
+                    @changed="onFileChangeFocus"
                 />
                 <v-text-field
                     v-model="program.focus"
@@ -193,7 +193,7 @@
         </v-row>
         <div v-for="(week, index) in selectedDays" :key="week.id" class="mb-5">
             <div style="height: 20px;" ></div>
-            <h3>Group # {{ index }}</h3>
+            <h3>Week # {{ index  + 1}}</h3>
             <v-select
                 v-model="week.days"
                 :items="days"
@@ -261,15 +261,15 @@ const clearImg = () => {
     activeImageUpload.value = null;
 };
 const imageUploadFocus = ref(null);
+const imageUploadBased = ref(null);
 const onFileChangeFocus = (file) => {
     imageUploadFocus.value = file[0];
 };
-const clearImgFocus = () => {
-    imageUploadFocus.value = null;
-};
-const imageUploadBased = ref(null);
 const onFileChangeBased = (file) => {
     imageUploadBased.value = file[0];
+};
+const clearImgFocus = () => {
+    imageUploadFocus.value = null;
 };
 const clearImgBased = () => {
     imageUploadBased.value = null;
@@ -336,8 +336,6 @@ const getDaysList = async () => {
     }
 };
 const createNewItem = async () => {
-    console.log("submited", program.value);
-
     let errors = false;
     const formData = new FormData();
     formData.append("name", program.value.name);
@@ -350,6 +348,16 @@ const createNewItem = async () => {
     formData.append("price", program.value.price);
     formData.append("overview", overview.value.getHTML());
     formData.append("introduction", introduction.value.getHTML());
+
+    if(imageUploadFocus.value) {
+        formData.append("focus_image_url", imageUploadFocus.value);
+    }
+    if(imageUploadBased.value) {
+        formData.append("based_image_url", imageUploadBased.value);
+    }
+    if(activeImageUpload.value) {
+        formData.append("image", activeImageUpload.value);
+    }
     let weekKeyList = [];
     selectedDays.value.forEach((weekGroup, index) => {
         if (weekGroup.days.length === 0) {
@@ -367,9 +375,6 @@ const createNewItem = async () => {
 
     if (errors) {
         return;
-    }
-    if (activeImageUpload.value) {
-        formData.append("image", activeImageUpload.value);
     }
 
     try {

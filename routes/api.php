@@ -99,5 +99,8 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::get('/get-info-modules',[ServicesController::class,'getInfoModules']);
     //Help module
     Route::post('/store-ticket',[TicketController::class,'store']);
+    //Packages
+    Route::get('/list-packages',[ProgramController::class,'listPackages']);
+    Route::get('/package-details/{id}',[ProgramController::class,'detailsPackageMobile']);
 });
 

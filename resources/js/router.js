@@ -40,7 +40,7 @@ const routes = [
         meta: { auth: true },
     },       
     {
-        path: "/programs/edit/:id ",
+        path: "/programs/edit/:id",
         name: "packages-edit",
         component: () => import("../js/views/Programs/EditProgram.vue"),
         meta: { auth: true },
