@@ -72,7 +72,6 @@ Route::post('/mobile/reset/request', [AuthController::class,'requestReset']);
 Route::post('/mobile/reset/validate', [AuthController::class,'validateReset']);
 Route::post('/mobile/reset/change', [AuthController::class,'changePassword']);
 
-Route::get('/mobile/getPackages', [ServicesController::class, 'getPackages']);
 Route::get('/mobile/getAnalyticsInfo',[ServicesController::class,'getAnalyticsInfo']);
 
 
@@ -101,7 +100,7 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     //Help module
     Route::post('/store-ticket',[TicketController::class,'store']);
     //Packages
-    Route::get('/list-packages',[ProgramController::class,'listPackages']);
+    Route::get('/getPackages', [ProgramController::class, 'listPackages']);
     Route::get('/package-details/{id}',[ProgramController::class,'detailsPackageMobile']);
 });
 

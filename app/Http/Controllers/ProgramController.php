@@ -11,6 +11,51 @@ class ProgramController extends Controller
     public function listPackages()
     {
         $packages = Program::all();
+        foreach ($packages as $program) {
+            unset($package->exercises_groups);
+            $program->featured_image_url = $program->featured_image;
+            $program->package_name = $program->name;
+            $program->pre_name = $program->subtitle;
+            $program->program_introduction = $program->introduction;
+            foreach ($program->weeks as $week) {
+                $week->group_title = '1-4';
+            }
+            unset($program->subtitle);
+            unset($program->name);
+            unset($program->featured_image);
+            unset($program->focus);
+            unset($program->based);
+            unset($program->delete);
+            unset($program->focus_image_url);
+            unset($program->based_image_url);
+            unset($program->duration_per_workout);
+            unset($program->duration_per_week);            
+            unset($program->weeks);            
+            $features = [
+                [
+                    'title'=>'duration_workout',
+                    'value'=> '30 min',
+                    'icon'=> 'https://app.lorevera.com/images/duration_workout.svg'
+                ],
+                [
+                    'title'=>'duration_week',
+                    'value'=> '4 weeks',
+                    'icon'=> 'https://app.lorevera.com/images/duration_week.svg'
+                ],
+                [
+                    'title'=>'focus',
+                    'value'=> $program->focus,
+                    'icon'=> $program->focus_image_url ?? "https://app.lorevera.com/images/focus_fullbody.svg"
+                ],
+                [
+                    'title'=>'based',
+                    'value'=> $program->based,
+                    'icon'=> $program->based_image_url ?? "https://app.lorevera.com/images/home_based.svg"
+                ],
+    
+            ];
+            $program->features = $features;            
+        }
         return response()->json($packages, 200);
     }
     public function deletePackage($id)
