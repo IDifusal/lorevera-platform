@@ -206,6 +206,9 @@ class ProgramController extends Controller
         ];
         $program->features = $features;
         $program->featured_image_url = $program->featured_image;
+        $program->package_name = $program->name;
+        $program->pre_name = $program->subtitle;
+        $program->program_introduction = $program->introduction;        
         foreach ($program->weeks as $week) {
             $week->group_title = '1-4';
         }
