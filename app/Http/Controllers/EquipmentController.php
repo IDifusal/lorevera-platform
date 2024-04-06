@@ -34,6 +34,7 @@ class EquipmentController extends Controller
             $path = $request->file('image')->storeAs('equipment', $fileName, 'public');
             // Almacenar solo el path relativo (sin 'storage/') en la base de datos
             $path = str_replace('public/', '', $path);
+            $path = Storage::url($path);
         }
 
         $equipment = new Equipment;
@@ -78,6 +79,7 @@ class EquipmentController extends Controller
                 $fileName = time() . '_' . $file->getClientOriginalName();
                 $path = $request->file('image')->storeAs('equipment', $fileName, 'public');
                 $path = str_replace('public/', '', $path);
+                $path = Storage::url($path);
                 $equipment->featured_image_url = $path;
             }
     

@@ -38,15 +38,16 @@ class WorkoutController extends Controller
             'reps' => 'required|integer',
             'sets' => 'required|integer',
             'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Asegura validación para imagen
-
         ]);
     
         $imagePath = null;
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $file = $request->file('image');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $imagePath = $request->file('image')->storeAs('equipment', $fileName, 'public');
-            $imagePath = str_replace('public/', '/storage/', $imagePath); // Ajuste para obtener el path correcto
+            $imagePath = $request->file('image')->storeAs('exercises', $fileName, 'public');
+
+             $imagePath = str_replace('public/', '/storage/', $imagePath); // Ajuste para obtener el path correcto
+             $imagePath = Storage::url($imagePath);
         }
     
         $videoPath = null;
@@ -54,8 +55,9 @@ class WorkoutController extends Controller
         if ($request->hasFile('video') && $request->file('video')->isValid()) {
             $file = $request->file('video');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $videoPath = $request->file('video')->storeAs('equipment', $fileName, 'public');
-            $videoPath = str_replace('public/', '/storage/', $videoPath); // Ajuste para obtener el path correcto
+            $videoPath = $request->file('video')->storeAs('exercises', $fileName, 'public');
+            $videoPath = str_replace('public/', '/storage/', $videoPath);
+            $videoPath = Storage::url($videoPath);
         }
     
         $equipment = new Exercise;

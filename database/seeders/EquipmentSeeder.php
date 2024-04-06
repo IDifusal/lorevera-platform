@@ -14,8 +14,8 @@ class EquipmentSeeder extends Seeder
     public function run(): void
     {
         DB::table('equipment')->insert([
-            ["name" => "Dumbbell", "featured_image_url" => "equipment/dumbbell.jpg"],
-            ["name" => "Mat", "featured_image_url" => "equipment/mat.jpg"]
+            ["name" => "Dumbbell", "featured_image_url" => "http://app.lorevera.com/images/equipment/dumpbell.jpg"],
+            ["name" => "Mat", "featured_image_url" => "http://app.lorevera.com/images/equipment/mat.jpg"]
         ]);    
     }
 }

@@ -20,17 +20,14 @@ class ProgressImageController extends Controller
         $user = auth()->user(); // Get the authenticated user
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            // Store the image in the 'public/progress_images' directory
             $path = $request->file('image')->store('/progress_images');
+            $path = str_replace('public/', '', $path);
+            $path = Storage::url($path);
 
-            // Optionally, adjust the path as needed to make it accessible via URL
-            $pathnew = "public/storage/" .$path;
-
-            // Create a new progress image record using the authenticated user's ID
             $progressImage = ProgressImage::create([
                 'user_id' => $user->id, // Use the authenticated user's ID
                 'type' => $request->type,
-                'image_url' => $pathnew, // Generate a URL to the stored image
+                'image_url' => $path, // Generate a URL to the stored image
             ]);
 
             return response()->json($progressImage, 201);

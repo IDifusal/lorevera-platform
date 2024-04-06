@@ -16,6 +16,11 @@ class Program extends Model
         'duration_per_week', 'focus', 'based', 'overview'
     ];
 
+    protected $casts = [
+        'is_public' => 'boolean',
+        'has_access' => 'boolean',
+    ];
+
     public function weeks()
     {
         return $this->hasMany(ProgramWeek::class);

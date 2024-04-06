@@ -49,6 +49,7 @@ class DaysController extends Controller
                 $fileName = time() . '_' . $file->getClientOriginalName();
                 $imagePath = $request->file('image')->storeAs('days', $fileName, 'public');
                 $imagePath = str_replace('public/', '/storage/', $imagePath); // Ajuste para obtener el path correcto
+                $imagePath = Storage::url($imagePath);
             }
             $item->image = $imagePath;
         

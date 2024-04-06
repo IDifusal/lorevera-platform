@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Program;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProgramController extends Controller
 {
@@ -53,18 +54,21 @@ class ProgramController extends Controller
             $fileName = time() . '_' . $file->getClientOriginalName();
             $imagePathFeatured = $request->file('image')->storeAs('program', $fileName, 'public');
             $imagePathFeatured = str_replace('public/', '/storage/', $imagePathFeatured);
+            $imagePathFeatured = Storage::url($imagePathFeatured);
         }
         if ($request->hasFile('focus_image_url') && $request->file('focus_image_url')->isValid()) {
             $file = $request->file('focus_image_url');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $imagePathFocus = $request->file('focus_image_url')->storeAs('program', $fileName, 'public');
-            $imagePathFocus = str_replace('public/', '/storage/', $imagePathFocus); // Ajuste para obtener el path correcto
+            $imagePathFocus = str_replace('public/', '/storage/', $imagePathFocus);
+            $imagePathFocus = Storage::url($imagePathFocus);
         }
         if ($request->hasFile('based_image_url') && $request->file('image')->isValid()) {
             $file = $request->file('based_image_url');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $imagePathBased = $request->file('based_image_url')->storeAs('program', $fileName, 'public');
-            $imagePathBased = str_replace('public/', '/storage/', $imagePathBased); // Ajuste para obtener el path correcto
+            $imagePathBased = str_replace('public/', '/storage/', $imagePathBased); 
+            $imagePathBased = Storage::url($imagePathBased);
         }                
 
         $package->is_public = false;
