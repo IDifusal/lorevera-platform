@@ -140,12 +140,12 @@ class ProgramController extends Controller
             [
                 'title'=>'duration_workout',
                 'value'=> '30 min',
-                'icon'=> '/images/duration_workout.svg'
+                'icon'=> 'https://app.lorevera.com/images/duration_workout.svg'
             ],
             [
                 'title'=>'duration_week',
                 'value'=> '4 weeks',
-                'icon'=> '/images/duration_week.svg'
+                'icon'=> 'https://app.lorevera.com/images/duration_week.svg'
             ],
             [
                 'title'=>'focus',
