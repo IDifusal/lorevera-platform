@@ -150,12 +150,12 @@ class ProgramController extends Controller
             [
                 'title'=>'focus',
                 'value'=> $program->focus,
-                'icon'=> $program->focus_image_url ?? "/images/focus_fullbody.svg"
+                'icon'=> $program->focus_image_url ?? "https://app.lorevera.com/images/focus_fullbody.svg"
             ],
             [
                 'title'=>'based',
                 'value'=> $program->based,
-                'icon'=> $program->based_image_url ?? "/images/home_based.svg"
+                'icon'=> $program->based_image_url ?? "https://app.lorevera.com/images/home_based.svg"
             ],
 
         ];
