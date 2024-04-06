@@ -126,6 +126,7 @@ class ProgramController extends Controller
             'weeks.days',
             'weeks.days.workouts',
             'weeks.days.warmups',
+            'weeks.days.equipment',
         ])->find($id);
 
         if (!$program) {
