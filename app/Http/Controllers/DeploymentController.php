@@ -56,4 +56,15 @@ class DeploymentController extends Controller
 
         return response()->json(['message' => 'Migrations run successfully']);
     }    
+    public function runMigrateFresh(Request $request)
+    {
+        $token = $request->input('token');
+        if ($token !== $this->request_token) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+
+        return response()->json(['message' => 'Database has been refreshed and seeded successfully']);
+    }    
 }
