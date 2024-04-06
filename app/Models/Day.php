@@ -21,7 +21,7 @@ class Day extends Model
     // Optionally, if you want to directly access warmups or workouts
     public function warmups()
     {
-        return $this->exercises()->where('type', 'warm_up');
+        return $this->exercises()->where('type', 'warmup');
     }
     
     public function workouts()

@@ -13,41 +13,41 @@ class ServicesController extends Controller
     public function bdrcalculator(Request $request)
     {
         $age = (int) $request->age;
-    
+
         // Correctly access the height and weight values and units
         $heightUnit = $request->height['unit'];
         $heightValue = (double) $request->height['value'];
         $weightUnit = $request->weight['unit'];
         $weightValue = (double) $request->weight['value'];
-    
+
         // Convert height to centimeters if in feet
         if ($heightUnit === 'ft') {
             $height = $this->convertFeetToCentimeters($heightValue);
         } else {
             $height = $heightValue;
         }
-    
+
         // Convert weight to kg isf in pounds
         if ($weightUnit === 'lb') {
             $weight = $this->convertPoundsToKg($weightValue);
         } else {
             $weight = $weightValue;
         }
-    
+
         // BMR calculation (Mifflin-St Jeor Equation, assuming male for simplicity)
         $bmr = (10 * $weight) + (6.25 * $height) - (5 * $age) + 5;
-    
+
         // TDEE calculation with moderate activity level (activity factor of 1.55)
         $tdee = $bmr * 1.55;
-    
+
         return response()->json(['bmr' => $bmr, 'tdee' => $tdee]);
     }
-    
+
     private function convertFeetToCentimeters($feet)
     {
         return $feet * 30.48;
     }
-    
+
     private function convertPoundsToKg($pounds)
     {
         return $pounds * 0.453592;
@@ -55,7 +55,7 @@ class ServicesController extends Controller
 
     protected function convertFeetAndInchesToCentimeters(int $feet, int $inches): float
     {
-        return($feet * 30.48) + ($inches * 2.54);
+        return ($feet * 30.48) + ($inches * 2.54);
     }
     public function getUserWeightsBy(Request $request)
     {
@@ -223,12 +223,16 @@ class ServicesController extends Controller
     {
         //Modules return html with dummy info, analytics,Goals, limitations, weight, how to measure, how to take photo
         return response()->json([
-            "analytics"=> "<h1>Analytics</h1><p>Here you can see your progress</p>",
-            "goals"=> "<h1>Goals</h1><p>Here you can see your goals</p>",
-            "limitations"=> "<h1>Limitations</h1><p>Here you can see your limitations</p>",
-            "weight"=> "<h1>Weight</h1><p>Here you can see your weight</p>",
-            "how_to_measure"=> "<h1>How to measure</h1><p>Here you can see how to measure</p>",
-            "how_to_take_photo"=> "<h1>How to take photo</h1><p>Here you can see how to take photo</p>"
+            "analytics" => "<h1>Analytics</h1><p>Here you can see your progress</p>",
+            "goals" => "<h1>Goals</h1><p>Here you can see your goals</p>",
+            "limitations" => "<h1>Limitations</h1><p>Here you can see your limitations</p>",
+            "weight" => "<h1>Weight</h1><p>Here you can see your weight</p>",
+            "how_to_measure" => "<h1>How to measure</h1><p>Here you can see how to measure</p>",
+            "how_to_take_photo" => "<h1>How to take photo</h1><p>Here you can see how to take photo</p>",
+            "bio" => "<p>Welcome to my world of strength, stability, and flexibility! I'm Lorena, A passionate bodybuilding athlete and ISSA-certified Glute Specialist. My mission is to inspire and guide women on their journey to physical transformation and well-being. My primary focus is on muscle development and achieving the desired physique through bodybuilding. I offer adaptable training programs suitable for both home and gym workouts.<br><br>
+            With a rich background in the culinary world as an international chef, I understand the significance of balanced nutrition in the transformation process. I firmly believe that it's never too late to pursue new challenges and goals, regardless of age.My training style is rooted in bodybuilding, promoting muscle growth and self-confidence.<br><br>
+
+            My training programs are meticulously designed to yield tangible results, combining precise exercises and timing to ensure muscle growth and unwavering confidence. I'm here to assist you in developing healthy lifestyle habits and reaching your wellness goals, including obtaining the body you've always desired. Join me on this exciting journey toward a healthier and more successful life.</p>"
         ]);
     }
 

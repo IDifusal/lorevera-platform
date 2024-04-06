@@ -123,7 +123,9 @@ class ProgramController extends Controller
         // Retrieve the program with ordered weeks and days
         $program = Program::with([
             'weeks',
-            'weeks.days'
+            'weeks.days',
+            'weeks.days.workouts',
+            'weeks.days.warmups',
         ])->find($id);
 
         if (!$program) {
@@ -153,6 +155,9 @@ class ProgramController extends Controller
 
         ];
         $program->features = $features;
+        $program->featured_image_url = $program->featured_image;
+        $program->weeks[0]->group_title = '1-4';
+        unset($program->featured_image);
         unset($program->focus);
         unset($program->based);
         unset($program->delete);
