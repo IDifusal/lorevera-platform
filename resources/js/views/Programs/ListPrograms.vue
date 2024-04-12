@@ -16,7 +16,7 @@
                   {{ props.item.id }}
               </td>
               <td>
-                  {{ props.item.name }}
+                  {{ props.item.package_name }}
               </td>
               <td>
                   <v-btn color="primary" text @click="editItem(props.item)">

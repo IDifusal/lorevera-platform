@@ -194,10 +194,19 @@
         <div v-for="(week, index) in selectedDays" :key="week.id" class="mb-5">
             <div style="height: 20px;" ></div>
             <h3>Week # {{ index  + 1}}</h3>
+            <v-text-field
+                    v-model="week.title"
+                    :rules="[rules.required]"
+                    class="field"
+                    required
+                    flat
+                    placeholder="Example: 1-2"
+                ></v-text-field>
             <v-select
                 v-model="week.days"
                 :items="days"
                 item-value="id"
+                placeholder="Select Days"
                 multiple
                 outline
                 return-object
@@ -307,6 +316,7 @@ const selectedDays = ref([
     {
         week: 1,
         days: [],
+        title:""
     },
 ]);
 const addWeek = () => {

@@ -35,7 +35,7 @@ class AuthController extends Controller
     }
     public function addChargeWeight(Request $request)
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $userId = $user->id;
         $currentDate = date('Y-m-d');
         // Validate the incoming request

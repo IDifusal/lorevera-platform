@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('progress_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('type'); // For storing the body part type like arm, legs, etc.
-            $table->string('image_url'); // The URL/path to the stored image
+            $table->enum('type', ['front', 'back', 'left', 'right']);
+            $table->string('image_url');
             $table->timestamps();
         });
     }

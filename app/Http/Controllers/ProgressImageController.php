@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProgressImage;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,7 +41,7 @@ class ProgressImageController extends Controller
         $user = auth()->user(); // Get the authenticated user
 
         // Retrieve the progress images for the authenticated user
-        $progressImages = ProgressImage::where('user_id', $user->id)->get();
+        $progressImages = ProgressImage::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
 
         return response()->json(
             [
@@ -48,4 +49,37 @@ class ProgressImageController extends Controller
             ]
         );
     }
+    public function removeImage(Request $request, $id)
+    {
+        $user = auth()->user(); // Get the authenticated user
+    
+        // Wrap operations in a transaction for atomicity
+        DB::beginTransaction();
+        
+        try {
+            // Retrieve the progress image for the authenticated user
+            $progressImage = ProgressImage::where('user_id', $user->id)->where('id', $id)->first();
+    
+            if (!$progressImage) {
+                return response()->json(['message' => 'Progress image not found'], 404);
+            }
+    
+            // $path = str_replace('storage/', 'public/', $progressImage->image_url);
+            // if (Storage::exists($path)) {
+            //     Storage::delete($path); // Ensure the file exists before attempting to delete
+            // } else {
+            //     throw new \Exception("File not found.");
+            // }
+    
+            $progressImage->delete(); // Delete the progress image record
+    
+            DB::commit(); // Commit the transaction
+    
+            return response()->json(['message' => 'Progress image deleted'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback the transaction on error
+            return response()->json(['message' => 'Failed to delete progress image: ' . $e->getMessage()], 500);
+        }
+    }
+    
 }
