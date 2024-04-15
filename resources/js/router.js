@@ -22,12 +22,6 @@ const routes = [
         meta: { auth: true },
     },
     {
-        path: "/support",
-        name: "support",
-        component: () => import("../js/views/Support/ListSupport.vue"),
-        meta: { auth: true },
-    },
-    {
         path: "/packages/list-packages",
         name: "packages-list",
         component: () => import("../js/views/Programs/ListPrograms.vue"),
@@ -98,7 +92,24 @@ const routes = [
         name: "warm-up-edit",
         component: () => import("../js/views/WarmUp/Edit.vue"),
         meta: { auth: true },
-    }                           
+    }         ,
+    {
+        path:"/nutrition/list-meat",
+        name:"meat-list",
+        component: () => import("../js/views/Nutrition/ListNutrition.vue"),
+        meta: { auth: true }
+    },
+    {
+        path:"/nutrition/list-vegetarian",
+        name:"vegetarian-list",
+        component: () => import("../js/views/Nutrition/ListNutrition2.vue"),
+        meta: { auth: true }
+    },
+    {
+        path:"/support/tickets",
+        name:"tickets",
+        component: () => import("../js/views/Support/ListTickets.vue"),
+    }   
 ];
 const router = createRouter({
     history: createWebHistory(),

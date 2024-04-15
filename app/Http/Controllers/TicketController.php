@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
+    public function index()
+    {
+        $tickets = Ticket::with('user')->get();
+
+        return response()->json($tickets);
+    }
     public function store(Request $request)
     {
         $request->validate([

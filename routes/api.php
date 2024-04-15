@@ -6,6 +6,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaysController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\WorkoutController;
@@ -56,6 +57,17 @@ function () {
     Route::get('get-package/{id}',[ProgramController::class,'detailsPackage']);
     Route::delete('delete-package/{id}',[ProgramController::class,'deletePackage']);
     Route::post('update-package/{id}',[ProgramController::class,'updatePackage']);  
+
+    //Recipes
+    Route::get('list-recipes-meat',[RecipeController::class,'listRecipesMeat']);
+    Route::get('list-recipes-vegetarian',[RecipeController::class,'listRecipesVegetarian']);
+    Route::post('store-recipe',[RecipeController::class,'storeRecipe']);
+    Route::get('get-recipe/{id}',[RecipeController::class,'detailsRecipe']);
+    Route::delete('delete-recipe/{id}',[RecipeController::class,'deleteRecipe']);
+    Route::post('update-recipe/{id}',[RecipeController::class,'updateRecipe']);
+    //Tickets
+    Route::get('list-tickets',[TicketController::class,'index']);
+
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
@@ -108,5 +120,7 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     //Packages
     Route::get('/getPackages', [ProgramController::class, 'listPackages']);
     Route::get('/package-details/{id}',[ProgramController::class,'detailsPackageMobile']);
+    //Recipes
+    Route::get('/list-recipes',[RecipeController::class,'listRecipesMobile']);
 });
 

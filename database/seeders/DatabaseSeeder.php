@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
+use Database\Seeders\NutritionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,7 +36,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserWeightsTableSeeder::class,
-            EquipmentSeeder::class
+            EquipmentSeeder::class,
+            NutritionSeeder::class
         ]);
     }
 }

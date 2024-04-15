@@ -115,17 +115,28 @@ const itemsMenu = [
         ],
     },
     {
-        name: "Support Center",
-        icon: "mdi-headset",
-        link: "/support/tickets",
+        name:"Nutrition",
+        icon: "mdi-package-variant-closed",
+        link: null,
         childs: [
             {
-                name: "Unresolved Tickets",
-                link: "/support/tickets",
+                name: "Meat Plan",
+                link: "/nutrition/list-meat",
             },
             {
-                name: "Resolved Tickets",
-                link: "/support/old-tickets",
+                name:"Vegetarian Plan",
+                link: "/nutrition/list-vegetarian",
+            },            
+        ],
+    },    
+    {
+        name: "Support Center",
+        icon: "mdi-headset",
+        link: null,
+        childs: [
+            {
+                name: "Tickets",
+                link: "/support/tickets",
             },
         ],
     },
