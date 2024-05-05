@@ -223,6 +223,30 @@ class ServicesController extends Controller
     {
         //Modules return html with dummy info, analytics,Goals, limitations, weight, how to measure, how to take photo
         return response()->json([
+            'macro_calculator'=>[
+                'sections'=>[
+                    [
+                        'title'=>'Macro Calculator',
+                        'data'=>"<p>Keeping an accurate record of your macronutrients is essential for achieving your health and fitness goals. With our macro calculation tool, you can get personalized guidance on the amount of carbohydrates, proteins, and fats you should consume daily. Here's how to use it:<br><br><strong>Step 1: Personal Profile</strong><br>
+                            We'll start by creating your personal profile. Enter your age, weight, height, and gender. These details will help us calculate your calorie and macronutrient needs more accurately.<br><br>
+                            
+                            <strong>Step 2: Activity Level</strong><br>
+                            Select your level of physical activity. You can choose from options like sedentary, lightly active, moderately active, very active, or extremely active. This choice reflects your calorie expenditure based on your lifestyle.<br><br>
+                            
+                            <strong>Step 3: Nutritional Goals</strong><br>
+                            Define your nutritional goals. Do you want to lose weight, gain muscle, or simply maintain your current weight? You can also tailor these goals to your dietary preferences, such as a low-carb or high-protein diet.<br><br>
+                            
+                            <strong>Step 4: Macro Calculation</strong><br>
+                            Once you've provided all of this information, our app will perform a personalized calculation to determine the amount of carbohydrates, proteins, and fats you should consume in your daily diet to reach your goals. We will provide specific recommendations based on your individual needs.
+                            <br><br>
+                            <strong>Step 5: Tracking and Planning</strong><br>
+                            Ready to go! Now you can use this information to plan your meals and keep a record of your daily intake. Our app will also allow you to track your progress and make adjustments to your diet as needed.<br><br>
+                            
+                            With our macro calculation app, you have a powerful tool to optimize your nutrition and move toward a healthier lifestyle. We hope you find this feature helpful on your journey to your health and fitness goals!
+                            </p>"
+                    ]
+                ]
+            ],
             'analytics' => [
                 'sections' => [
                     [
@@ -291,6 +315,88 @@ class ServicesController extends Controller
                     ]
                 ]
             ]
+        ]);
+    }
+    public function calculateMacros(Request $request)
+    {
+        // Validate request input
+        $request->validate([
+            'age' => 'required|integer|min:1',
+            'weight.value' => 'required|numeric',
+            'weight.type' => 'required|string|in:kg,lb',
+            'height.value' => 'required|numeric',
+            'height.type' => 'required|string|in:cm,ft',
+            'activity_level' => 'required|string|in:sedentary,lightly_active,moderately_active,very_active,extra_active',
+            'goal' => 'required|string|in:lose_weight,gain_weight,mantain'
+        ]);
+
+        // Extract input parameters
+        $age = $request->age;
+        $weightValue = $request->weight['value'];
+        $weightType = $request->weight['type'];
+        $heightValue = $request->height['value'];
+        $heightType = $request->height['type'];
+        $activityLevel = $request->activity_level;
+        $goal = $request->goal;
+
+        // Convert weight to kg if necessary
+        if ($weightType == 'lb') {
+            $weightValue = $weightValue * 0.453592;
+        }
+
+        // Convert height to cm if necessary
+        if ($heightType == 'ft') {
+            $heightValue = $heightValue * 30.48;
+        }
+
+        // Calculate BMR using the Mifflin-St Jeor formula (for males)
+        $bmr = (10 * $weightValue) + (6.25 * $heightValue) - (5 * $age) + 5;
+
+        // Adjust BMR based on activity level
+        $activityFactors = [
+            'sedentary' => 1.2,
+            'lightly_active' => 1.375,
+            'moderately_active' => 1.55,
+            'very_active' => 1.725,
+            'extra_active' => 1.9
+        ];
+        $tdee = $bmr * $activityFactors[$activityLevel];
+
+        // Adjust TDEE based on the goal
+        switch ($goal) {
+            case 'lose_weight':
+                $tdee -= 500; // Create a calorie deficit
+                break;
+            case 'gain_weight':
+                $tdee += 500; // Create a calorie surplus
+                break;
+            case 'mantain':
+            default:
+                // No adjustment for maintaining weight
+                break;
+        }
+
+        // Macro calculation (typical ranges; these could be adjusted based on specific needs)
+        // Protein: 1.2 - 2.0 grams per kg body weight
+        // Fat: 20% - 35% of total calories
+        // Carbs: Remaining calories after protein and fat are accounted for
+
+        $proteinPerKg = 1.5; // grams of protein per kg (adjustable)
+        $proteinCalories = $proteinPerKg * $weightValue * 4;
+
+        $fatPercentage = 0.3; // 30% of total calories from fat (adjustable)
+        $fatCalories = $tdee * $fatPercentage;
+        $fatGrams = $fatCalories / 9;
+
+        $carbCalories = $tdee - $proteinCalories - $fatCalories;
+        $carbGrams = $carbCalories / 4;
+
+        return response()->json([
+            'bmr' => round($bmr, 2),
+            'tdee' => round($tdee, 2),
+            'protein_grams' => round($proteinPerKg * $weightValue, 2),
+            'fat_grams' => round($fatGrams, 2),
+            'carb_grams' => round($carbGrams, 2),
         ]);
     }
 

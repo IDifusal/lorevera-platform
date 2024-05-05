@@ -14,6 +14,7 @@ use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\LimitationController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CircumferenceController;
 use App\Http\Controllers\ProgressImageController;
 
@@ -84,8 +85,10 @@ Route::post('/mobile/register', [AuthController::class, 'createUser']);
 Route::post('/mobile/reset/request', [AuthController::class,'requestReset']);
 Route::post('/mobile/reset/validate', [AuthController::class,'validateReset']);
 Route::post('/mobile/reset/change', [AuthController::class,'changePassword']);
+Route::get('/test-notification', [NotificationController::class, 'sendTestNotification']);  
 
 Route::get('/mobile/getAnalyticsInfo',[ServicesController::class,'getAnalyticsInfo']);
+Route::post('/macros-calculator', [ServicesController::class, 'calculateMacros']);
 
 
 Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function () {
@@ -122,5 +125,7 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::get('/package-details/{id}',[ProgramController::class,'detailsPackageMobile']);
     //Recipes
     Route::get('/list-recipes',[RecipeController::class,'listRecipesMobile']);
+
+    Route::post('/schedule-notification', [NotificationController::class, 'schedule']);
 });
 
