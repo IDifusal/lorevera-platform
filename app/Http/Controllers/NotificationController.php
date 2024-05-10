@@ -30,7 +30,7 @@ class NotificationController extends Controller
 
 
         // Use the predefined device token
-        $deviceToken = 'fqX_OXYhRcylurMpPPFAtS:APA91bEX4I4uyuvLKQvHI0e8N5nmdlezA3QR2CPKBM7EdwuJ3JHwyChGR0zly4y80imO2voG8md2ZUj_ry7M682QytUNSYJbORo5X-w0J5QVrwIvGD79qDdDX4K7ok5Dbuc_ihsNBt-x';
+        $deviceToken = 'dYmyVC99RPuq4kD4hqCqUo:APA91bHw1FaF1muBVsmohnfZPTNyTcrKKrZAHq-2dgx3Z3dtYrATQjXawQHrtSyfG8mHNKxmBMI1Nleix8JY1Zy-LYiQny8G0E31fZaSxqmDDPPseeLsnIh9w3gP9XchFJ7JXu13gFQ-';
 
         // Message content
         $title = 'Test Notification';
