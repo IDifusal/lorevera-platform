@@ -7,6 +7,7 @@ use Kreait\Firebase\Factory;
 use App\Http\Controllers\Controller;
 use App\Models\ScheduledNotification;
 use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 use Kreait\Firebase\Exception\Messaging\NotFound;
 
 class NotificationController extends Controller
@@ -37,26 +38,27 @@ class NotificationController extends Controller
         $body = 'This is a test notification sent from the test endpoint.';
         $serviceAccount = json_decode($jsonContent, true);
         // Initialize Firebase Messaging
-        $factory = (new Factory)->withServiceAccount($serviceAccount);
-        $messaging = $factory->createMessaging();
+        try {
+            $factory = (new Factory)->withServiceAccount($serviceAccount);
+            $messaging = $factory->createMessaging();
+        } catch (\Throwable $e) {
+            logger()->error('Failed to initialize Firebase Messaging', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Failed to initialize Firebase Messaging'], 500);
+        }
 
         // Create and send the notification
         $message = CloudMessage::withTarget('token', $deviceToken)
-            ->withNotification([
-                'title' => $title,
-                'body' => $body
-            ]);
+            ->withNotification(Notification::create('Title', 'Body'))
+            ->withData(['key' => 'value']);
+        
 
-        // Send the message via Firebase
         try {
             $messaging->send($message);
+            logger()->info('Notification sent successfully', ['deviceToken' => $deviceToken]);
         } catch (NotFound $e) {
-            // Handle the case where the FCM token is invalid or expired
-            logger()->error('FCM token not found or invalid: ' . $e->getMessage());
-            // Consider removing the token from your database or marking it as inactive
+            logger()->error('FCM token not found or invalid', ['error' => $e->getMessage(), 'token' => $deviceToken]);
         } catch (\Throwable $e) {
-            // Handle other possible exceptions
-            logger()->error('Failed to send notification: ' . $e->getMessage());
+            logger()->error('Failed to send notification', ['error' => $e->getMessage()]);
         }
 
         return response()->json(['message' => 'Test notification sent successfully']);
