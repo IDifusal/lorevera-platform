@@ -7,6 +7,7 @@ use Kreait\Firebase\Factory;
 use App\Http\Controllers\Controller;
 use App\Models\ScheduledNotification;
 use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Exception\Messaging\NotFound;
 
 class NotificationController extends Controller
 {
@@ -47,7 +48,16 @@ class NotificationController extends Controller
             ]);
 
         // Send the message via Firebase
-        $messaging->send($message);
+        try {
+            $messaging->send($message);
+        } catch (NotFound $e) {
+            // Handle the case where the FCM token is invalid or expired
+            logger()->error('FCM token not found or invalid: ' . $e->getMessage());
+            // Consider removing the token from your database or marking it as inactive
+        } catch (\Throwable $e) {
+            // Handle other possible exceptions
+            logger()->error('Failed to send notification: ' . $e->getMessage());
+        }
 
         return response()->json(['message' => 'Test notification sent successfully']);
     }
