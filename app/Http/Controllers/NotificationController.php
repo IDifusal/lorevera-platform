@@ -37,6 +37,7 @@ class NotificationController extends Controller
         // Message content
         $title = 'Test Notification';
         $body = 'This is a test notification sent from the test endpoint.';
+        $imageUrl = 'https://picsum.photos/400/200';
         $serviceAccount = json_decode($jsonContent, true);
         // Initialize Firebase Messaging
         try {
@@ -49,7 +50,14 @@ class NotificationController extends Controller
 
         // Create and send the notification
         $message = CloudMessage::withTarget('token', $deviceToken)
-            ->withNotification(Notification::create('Title', 'Body'))
+            ->withNotification(Notification::fromArray(
+                [
+                    'title' => $title,
+                    'body' => $body,
+                    'image' => $imageUrl,
+                ]
+            )
+            )
             ->withData(['key' => 'value']);
         
 
