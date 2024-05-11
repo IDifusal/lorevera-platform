@@ -31,7 +31,8 @@ class NotificationController extends Controller
 
 
         // Use the predefined device token
-        $deviceToken = 'eVSpzuVnTESOxHbucW6xG2:APA91bHoIXQt_kEOTU8RSab99DhjQSetKkYnLcIBAgehoH7hb56Ev6QJSEiD8cU8qh8oR3Fj5dZg4ii1prHpT1RoAZdjE4bTSfVYATcGWJbjBnkpNeerMSAmfHGX_A8qv76QRCa4HGHz';
+        $deviceToken = 
+        'eVSpzuVnTESOxHbucW6xG2:APA91bHoIXQt_kEOTU8RSab99DhjQSetKkYnLcIBAgehoH7hb56Ev6QJSEiD8cU8qh8oR3Fj5dZg4ii1prHpT1RoAZdjE4bTSfVYATcGWJbjBnkpNeerMSAmfHGX_A8qv76QRCa4HGHz';
 
         // Message content
         $title = 'Test Notification';
@@ -49,7 +50,7 @@ class NotificationController extends Controller
         // Create and send the notification
         $message = CloudMessage::withTarget('token', $deviceToken)
             ->withNotification(Notification::create('Title', 'Body'))
-            ->withData( ['title' => $title, 'body' => $body]);
+            ->withData(['key' => 'value']);
         
 
         try {
