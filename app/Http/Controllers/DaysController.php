@@ -10,9 +10,26 @@ use Illuminate\Support\Facades\Storage;
 
 class DaysController extends Controller
 {
-    public function list()
+    public function listDaysCardio()
     {
-        $items = Day::get();
+        // Retrieve days where isCardio is true and also load related equipment
+        $items = Day::with('equipment')
+                    ->where("isCardio", 1)
+                    ->get();
+    
+        // Iterate over each item to attach warmups and workouts
+        $items->each(function ($item) {
+            $exercises = $item->exercises()->get(); // Load exercises related to the day
+            $item->warmups = $exercises->where('type', 'warmup')->values(); // Filter and reindex warmups
+            $item->workouts = $exercises->where('type', 'workout')->values(); // Filter and reindex workouts
+            unset($item->exercises); // Optionally remove exercises from the final object if not needed
+        });
+    
+        return response()->json($items);
+    }
+    public function listDaysPackages()
+    {
+        $items = Day::get()->where("isCardio", 0)->values();
         return response()->json(
             $items
         );
@@ -43,6 +60,7 @@ class DaysController extends Controller
             $item = new Day;
             $item->title = $request->title;
             $item->description = $request->content;
+            $item->isCardio = $request->isCardio ?? 0;
             $imagePath = null;
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $file = $request->file('image');

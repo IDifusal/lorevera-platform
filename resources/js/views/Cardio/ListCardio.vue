@@ -1,116 +1,126 @@
 <template>
-  <v-main>
-    <v-row class="py-5 px-3">
-      <h2>List Cardio</h2>
-      <v-spacer> </v-spacer>
-      <v-btn color="primary" to="/cardio/create">
-        Create cardio
-        <v-icon> mdi-pencil </v-icon>
-      </v-btn>
-    </v-row>
-    <v-data-table
+  <div flex>
+      <h2>List Days</h2>
+      <v-spacer></v-spacer>
+      <v-btn color="primary" @click="goToAdd()">Add</v-btn>
+  </div>
+  <v-data-table
       :headers="headers"
       :items="items"
-      :items-per-page="5"
-      :options="optionsTable"
+      :items-per-page="100"
       class="elevation-1 pt-5"
-    >
+  >
       <template v-slot:item="props">
-        <tr>
-          <td>
-            {{ props.item.id }}
-          </td>
-          <td>
-            {{ props.item.name }}
-          </td>
-          <td>
-            {{ props.item.category }}
-          </td>
-          <td>
-            <img v-if="props.item.image != 'null'" :src="props.item.image" width="100" />
-          </td>
-          <td>
-            <v-btn
-              color="orange"
-              fab
-              small
-              dark
-              :to="{ name: 'cardio_edit', params: { id: props.item.id } }"
-            >
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn
-              color="red"
-              fab
-              small
-              dark
-              @click="deleteItem(props.item.id)"
-            >
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </td>
-        </tr>
+          <tr>
+              <td>
+                  {{ props.item.id }}
+              </td>
+              <td>
+                  {{ props.item.title }}
+              </td>
+              <td>
+                  <v-btn color="primary" text @click="editItem(props.item)">
+                      Edit
+                  </v-btn>
+                  <v-btn
+                      color="error"
+                      text
+                      @click="deleteItemDialog(props.item.id)"
+                  >
+                      Delete
+                  </v-btn>
+              </td>
+          </tr>
       </template>
-    </v-data-table>
-  </v-main>
+  </v-data-table>
+  <v-dialog
+    v-model="removeItem.dialog"
+    max-width="400"
+    persistent
+  >
+
+    <v-card
+      text="Are you sure you want to delete this item?"
+      title="This will delete the item permanently."
+    >
+      <template v-slot:actions>
+        <v-spacer></v-spacer>
+
+        <v-btn @click="removeItem.dialog = false">
+          Cancel
+        </v-btn>
+
+        <v-btn color="lorevera" @click="deleteItem()">
+          Confirm
+        </v-btn>
+      </template>
+    </v-card>
+  </v-dialog>       
 </template>
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
 import axios from "axios";
-export default {
-  data() {
-    return {
-      items: [],
-      headers: [
-        { text: "Id", value: "id", sortable: true },
-        { text: "Name", value: "name" },
-        { text: "Category", value: "category" },
-        { text: "Image", sortable: false },
-        { text: "Actions", sortable: false },
-      ],
-      optionsTable: {
-        itemsPerPage: 10,
-      },
-    };
-  },
-  created() {
-    this.getList();
-  },
-  methods: {
-    getList() {
-      try {
-        axios.get("cardio").then(({ data }) => (this.items = data));
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    editItem(item) {
-      this.$router.push(`/cardio/edit/${item.id}`);
-    },
-    deleteItem(item) {
-      this.$swal({
-        title: "Are you sure?",
-        text: "Yes, Delete Cardio!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.value) {
-          try {
-            axios.get("/cardio/delete/" + item).then(() => {
-              let index = this.items.findIndex((item) => item.id == item);
-              this.items.splice(index,1)
-                this.$store.commit("SET_SNACKBAR", {
-                  show: true,
-                  text: "Cardio deleted successfully",
-                })              
-            });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      });
-    },
-  },
+import { useRouter } from "vue-router";
+const router = useRouter();
+const goToAdd = () => {
+  router.push({ name: "cardio-add-day" });
 };
+const removeItem =ref({
+  dialog : false,
+  itemid:null
+})
+const headers = ref([
+  {
+      title: "id",
+      value: "id",
+  },
+  {
+      title: "Name",
+      align: "start",
+      sortable: false,
+      value: "title",
+  },
+  {
+      title: "Actions",
+      value: "actions",
+      sortable: false,
+  },
+]);
+
+const items = ref([]);
+
+
+const editItem = (item) => {
+  router.push({ name: "days-edit", params: { id: item.id,item:item } });
+};
+const deleteItemDialog = (id) => {
+  console.log("delete item", id);
+  removeItem.value.dialog = true;
+  removeItem.value.itemid = id;
+};
+
+const deleteItem = async () => {
+  const id = removeItem.value.itemid;        
+  try {
+      await axios.delete(`/api/web/delete-day/${id}`);
+      items.value = items.value.filter((item) => item.id !== id);
+      removeItem.value.dialog = false;
+      removeItem.value.itemid = null;           
+  } catch (error) {
+      console.error(error);
+  }
+
+};
+const refreshList = async () => {
+  try {
+      const { data } = await axios.get("/api/web/list-days-cardio");
+      console.log("DATAS",data);
+      items.value = data;
+  } catch (error) {
+      console.error(error);
+  }
+};
+onMounted(async () => {
+  await refreshList();
+});
 </script>

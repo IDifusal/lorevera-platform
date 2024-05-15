@@ -130,6 +130,17 @@ const itemsMenu = [
         ],
     },    
     {
+        name:"Cardio",
+        icon: "mdi-package-variant-closed",
+        link: null,
+        childs: [
+            {
+                name: "List Cardio",
+                link: "/cardio/list-cardio",
+            }         
+        ],
+    },        
+    {
         name: "Support Center",
         icon: "mdi-headset",
         link: null,

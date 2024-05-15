@@ -109,7 +109,17 @@ const routes = [
         path:"/support/tickets",
         name:"tickets",
         component: () => import("../js/views/Support/ListTickets.vue"),
-    }   
+    },
+    {
+        path:"/cardio/list-cardio",
+        name:"cardio-list",
+        component: () => import("../js/views/Cardio/ListCardio.vue"),
+    },
+    {
+        path:"/cardio/list-cardio",
+        name:"cardio-add-day",
+        component: () => import("../js/views/Cardio/AddCardio.vue"),
+    }                 
 ];
 const router = createRouter({
     history: createWebHistory(),

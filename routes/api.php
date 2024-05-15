@@ -47,7 +47,8 @@ function () {
     Route::post('update-warmup/{id}',[WorkoutController::class,'update']);
     //Workout routesps
     //Days (Warmup and workouyt agrupation)
-    Route::get('list-days',[DaysController::class,'list']);
+    Route::get('list-days',[DaysController::class,'listDaysPackages']);
+    Route::get('list-days-cardio',[DaysController::class,'listDaysCardio']);
     Route::post('store-day',[DaysController::class,'store']);
     Route::get('get-day/{id}',[DaysController::class,'details']);
     Route::delete('delete-day/{id}',[DaysController::class,'delete']);
@@ -127,5 +128,7 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::get('/list-recipes',[RecipeController::class,'listRecipesMobile']);
 
     Route::post('/schedule-notification', [NotificationController::class, 'schedule']);
+
+    Route::get('/list-days',[DaysController::class,'listDaysCardio']);
 });
 
