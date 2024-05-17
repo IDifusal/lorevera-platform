@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserDevice;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 use App\Http\Controllers\Controller;
-use App\Models\ScheduledNotification;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
 use Kreait\Firebase\Messaging\CloudMessage;
-use Kreait\Firebase\Messaging\Notification;
+use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
 use Kreait\Firebase\Exception\Messaging\NotFound;
 
 class NotificationController extends Controller
@@ -50,7 +52,7 @@ class NotificationController extends Controller
 
         // Create and send the notification
         $message = CloudMessage::withTarget('token', $deviceToken)
-            ->withNotification(Notification::fromArray(
+            ->withNotification(FirebaseNotification::fromArray(
                 [
                     'title' => $title,
                     'body' => $body,
@@ -74,20 +76,40 @@ class NotificationController extends Controller
     }
     public function schedule(Request $request)
     {
+     try {
+        $user = Auth::user();
         $request->validate([
-            'user_id' => 'required|integer|exists:users,id',
             'type' => 'required|string',
-            'message' => 'required|string',
-            'scheduled_at' => 'required|date_format:Y-m-d H:i:s',
+            'scheduled_at' => 'required|date_format:Y-m-d H:i:s'
         ]);
 
-        $notification = ScheduledNotification::create([
-            'user_id' => $request->user_id,
+        $notification = Notification::create([
+            'status'=> "pending",
+            'user_id' => $user->id,
             'type' => $request->type,
-            'message' => $request->message,
-            'scheduled_at' => $request->scheduled_at,
+            'scheduled_at' => $request->scheduled_at
         ]);
 
-        return response()->json(['message' => 'Notification scheduled successfully', 'notification' => $notification], 201);
+        return response()->json(['message' => 'Notification scheduled successfully', 'notification' => $notification]);
+     } catch (\Throwable $th) {
+        throw $th;
+     }
+    }
+    public function storeToken(Request $request)
+    {
+
+        $user = Auth::user();
+
+        $request->validate([
+            'fcm_token' => 'required|string'
+        ]);
+
+        $token = UserDevice::updateOrCreate(
+            ['user_id' => $user->id, 'fcm_token' => $request->fcm_token],
+            ['fcm_token' => $request->fcm_token]
+        );
+
+        return response()->json(['message' => 'Device token stored successfully']);
+
     }
 }

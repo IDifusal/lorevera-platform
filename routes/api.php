@@ -69,6 +69,7 @@ function () {
     Route::post('update-recipe/{id}',[RecipeController::class,'updateRecipe']);
     //Tickets
     Route::get('list-tickets',[TicketController::class,'index']);
+    //Notificaations
 
 });
 
@@ -130,5 +131,8 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
     Route::post('/schedule-notification', [NotificationController::class, 'schedule']);
 
     Route::get('/list-days',[DaysController::class,'listDaysCardio']);
+
+    Route::post('notifications/store-token',[NotificationController::class,'storeToken']);
+    Route::post('notifications/schedule',[NotificationController::class,'schedule']);
 });
 
