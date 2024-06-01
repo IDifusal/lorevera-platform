@@ -30,5 +30,9 @@ class Program extends Model
     {
         // Access all days associated with this program across all weeks
         return $this->hasManyThrough(Day::class, ProgramWeek::class);
-    }    
+    }   
+    public function favorites()
+    {
+        return $this->morphMany(UserFavorite::class, 'favoritable');
+    }     
 }

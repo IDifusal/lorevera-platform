@@ -177,11 +177,41 @@ class ProgramController extends Controller
             'weeks.days.warmups',
             'weeks.days.equipment',
         ])->find($id);
-
+    
         if (!$program) {
             return response()->json(['error' => 'Program not found'], 404);
         }
-        $features = [
+    
+        // Check if the program is a favorite
+        $programFavorite = $program->favorites()->where('user_id', auth()->id())->first();
+        $program->is_favorite = !!$programFavorite;
+        $program->favorite_id = $programFavorite ? $programFavorite->id : null;
+    
+        // Add other program-specific properties
+        $program->features = $this->getFeatures($program);
+        $program->featured_image_url = $program->featured_image;
+        $program->package_name = $program->name;
+        $program->pre_name = $program->subtitle;
+        $program->program_introduction = $program->introduction;        
+        foreach ($program->weeks as $week) {
+            $week->group_title = '1-4';
+            foreach ($week->days as $day) {
+                // Check each day for favorite status
+                $dayFavorite = $day->favorites()->where('user_id', auth()->id())->first();
+                $day->is_favorite = !!$dayFavorite;
+                $day->favorite_id = $dayFavorite ? $dayFavorite->id : null;
+            }
+        }
+    
+        // Clean up response
+        $this->unsetProgramAttributes($program);
+    
+        return response()->json($program);
+    }
+    
+    private function getFeatures($program)
+    {
+        return [
             [
                 'title'=>'Workout',
                 'value'=> '30 min',
@@ -202,24 +232,21 @@ class ProgramController extends Controller
                 'value'=> $program->based,
                 'icon'=> $program->based_image_url ?? "https://app.lorevera.com/images/home_based.svg"
             ],
-
         ];
-        $program->features = $features;
-        $program->featured_image_url = $program->featured_image;
-        $program->package_name = $program->name;
-        $program->pre_name = $program->subtitle;
-        $program->program_introduction = $program->introduction;        
-        foreach ($program->weeks as $week) {
-            $week->group_title = '1-4';
-        }
-        unset($program->featured_image);
-        unset($program->focus);
-        unset($program->based);
-        unset($program->delete);
-        unset($program->focus_image_url);
-        unset($program->based_image_url);
-        unset($program->duration_per_workout);
-        unset($program->duration_per_week);
-        return response()->json($program);
     }
+    
+    private function unsetProgramAttributes($program)
+    {
+        unset(
+            $program->featured_image, 
+            $program->focus, 
+            $program->based, 
+            $program->delete, 
+            $program->focus_image_url, 
+            $program->based_image_url, 
+            $program->duration_per_workout, 
+            $program->duration_per_week
+        );
+    }
+    
 }

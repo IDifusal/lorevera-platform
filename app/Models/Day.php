@@ -28,5 +28,9 @@ class Day extends Model
     {
         return $this->exercises()->where('type', 'workout');
     }    
+    public function favorites()
+    {
+        return $this->morphMany(UserFavorite::class, 'favoritable');
+    }
 
 }

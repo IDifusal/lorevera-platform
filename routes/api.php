@@ -10,6 +10,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\WorkoutController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\DeploymentController;
@@ -134,5 +135,10 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
 
     Route::post('notifications/store-token',[NotificationController::class,'storeToken']);
     Route::post('notifications/schedule',[NotificationController::class,'schedule']);
+
+    //favorites
+
+    Route::post('favorites/add',[FavoriteController::class,'addFavorite']);
+    Route::delete('favorites/remove/{id}',[FavoriteController::class,'removeFavorite']);
 });
 
