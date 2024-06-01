@@ -33,22 +33,22 @@ class ProgramController extends Controller
             unset($program->weeks);            
             $features = [
                 [
-                    'title'=>'duration_workout',
+                    'title'=>'Workout',
                     'value'=> '30 min',
                     'icon'=> 'https://app.lorevera.com/images/duration_workout.svg'
                 ],
                 [
-                    'title'=>'duration_week',
+                    'title'=>'Per Week',
                     'value'=> '4 weeks',
                     'icon'=> 'https://app.lorevera.com/images/duration_week.svg'
                 ],
                 [
-                    'title'=>'focus',
+                    'title'=>'Focus',
                     'value'=> $program->focus,
                     'icon'=> $program->focus_image_url ?? "https://app.lorevera.com/images/focus_fullbody.svg"
                 ],
                 [
-                    'title'=>'based',
+                    'title'=>'Based',
                     'value'=> $program->based,
                     'icon'=> $program->based_image_url ?? "https://app.lorevera.com/images/home_based.svg"
                 ],
@@ -183,22 +183,22 @@ class ProgramController extends Controller
         }
         $features = [
             [
-                'title'=>'duration_workout',
+                'title'=>'Workout',
                 'value'=> '30 min',
                 'icon'=> 'https://app.lorevera.com/images/duration_workout.svg'
             ],
             [
-                'title'=>'duration_week',
+                'title'=>'Per Week',
                 'value'=> '4 weeks',
                 'icon'=> 'https://app.lorevera.com/images/duration_week.svg'
             ],
             [
-                'title'=>'focus',
+                'title'=>'Focus',
                 'value'=> $program->focus,
                 'icon'=> $program->focus_image_url ?? "https://app.lorevera.com/images/focus_fullbody.svg"
             ],
             [
-                'title'=>'based',
+                'title'=>'Based',
                 'value'=> $program->based,
                 'icon'=> $program->based_image_url ?? "https://app.lorevera.com/images/home_based.svg"
             ],
