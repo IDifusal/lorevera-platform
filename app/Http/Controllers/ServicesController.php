@@ -13,35 +13,42 @@ class ServicesController extends Controller
     public function bdrcalculator(Request $request)
     {
         $age = (int) $request->age;
-
+        $gender = $request->gender; // Add gender parameter
+    
         // Correctly access the height and weight values and units
         $heightUnit = $request->height['unit'];
         $heightValue = (double) $request->height['value'];
         $weightUnit = $request->weight['unit'];
         $weightValue = (double) $request->weight['value'];
-
+    
         // Convert height to centimeters if in feet
         if ($heightUnit === 'ft') {
             $height = $this->convertFeetToCentimeters($heightValue);
         } else {
             $height = $heightValue;
         }
-
-        // Convert weight to kg isf in pounds
+    
+        // Convert weight to kg if in pounds
         if ($weightUnit === 'lb') {
             $weight = $this->convertPoundsToKg($weightValue);
         } else {
             $weight = $weightValue;
         }
-
-        // BMR calculation (Mifflin-St Jeor Equation, assuming male for simplicity)
-        $bmr = (10 * $weight) + (6.25 * $height) - (5 * $age) + 5;
-
-        // TDEE calculation with moderate activity level (activity factor of 1.55)
+    
+        // Adjust BMR calculation based on gender
+        if ($gender === 'man') {
+            $bmr = (10 * $weight) + (6.25 * $height) - (5 * $age) + 5;
+        } else if ($gender === 'woman') {
+            $bmr = (10 * $weight) + (6.25 * $height) - (5 * $age) - 161;
+        } else {
+            return response()->json(['error' => 'Invalid gender specified'], 400);
+        }
+    
         $tdee = $bmr * 1.55;
-
+    
         return response()->json(['bmr' => $bmr, 'tdee' => $tdee]);
     }
+    
 
     private function convertFeetToCentimeters($feet)
     {
