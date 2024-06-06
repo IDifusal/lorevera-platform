@@ -89,8 +89,22 @@ class AuthController extends Controller
             'gender' => 'required|string',
             'birthdayDate' => 'required|date',
         ]);
-    
+        $currentDate = date('Y-m-d');
+        $userId = $user->id;
         // Store the actual value and the unit preference
+        $userWeight = UserWeight::where('user_id', $userId)->where('date', $currentDate)->first();
+    
+        if (!$userWeight) {
+            // If no existing entry, create a new instance
+            $userWeight = new UserWeight();
+            $userWeight->user_id = $userId;
+            $userWeight->date = $currentDate;
+        }
+
+        // Update (or set) the weight
+        $userWeight->weight = $request->input('weight.value');
+        $userWeight->save();
+        
         $user->update([
             'height' => $request->input('height.value'),
             'height_unit' => $request->input('height.unit'),

@@ -230,6 +230,22 @@ class ServicesController extends Controller
     {
         //Modules return html with dummy info, analytics,Goals, limitations, weight, how to measure, how to take photo
         return response()->json([
+            'substitution_list'=>[
+                'sections'=>[
+                    [
+                        'title'=>'Meat plan',
+                        'data'=>"<p>
+
+                        These options provide a variety of flavors and nutrients to help customers create a balanced and delicious vegan diet. Remember to consider personal preferences, food allergies, and individual dietary needs when making choices at the supermarket.</p>"
+                    ],
+                    [
+                        'title'=>'Vegetarian Plan',
+                        'data'=>"<p>Recommendation:
+
+                        When shopping at the supermarket as part of a vegan diet, it's essential to take advantage of the wide range of options available in each food category. You can choose from fresh fruits like apples and oranges or experiment with nutritious vegetables such as spinach and broccoli. Regarding carbohydrates, eating whole foods like quinoa and brown rice can provide additional health benefits. Consider incorporating tofu, lentils, or powdered products like peas or hemp for plant-based proteins. Lastly, remember healthy fats, such as those found in avocados, olive oil, and nuts, which can be essential for a balanced diet. You can enjoy a nutritious and delicious vegan diet by making intelligent choices at the supermarket and experimenting with these versatile options.</p>"
+                    ]
+                ]
+            ],
             'macro_calculator'=>[
                 'sections'=>[
                     [
