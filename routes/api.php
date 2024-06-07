@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BundleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
@@ -72,6 +73,9 @@ function () {
     Route::get('list-tickets',[TicketController::class,'index']);
     //Notificaations
 
+    //Bundles
+    Route::get('list-bundles',[BundleController::class,'index']);
+    Route::post('store-bundle',[BundleController::class,'store']);
 });
 
 Route::post('/git-pull', [DeploymentController::class, 'gitPull']);
@@ -140,5 +144,8 @@ Route::group(['prefix' => 'mobile', 'middleware' => ['auth:sanctum']], function 
 
     Route::post('favorites/add',[FavoriteController::class,'addFavorite']);
     Route::delete('favorites/remove/{id}',[FavoriteController::class,'removeFavorite']);
+
+    //Bundles
+    Route::get('/list-bundles',[BundleController::class,'mobileList']);
 });
 
