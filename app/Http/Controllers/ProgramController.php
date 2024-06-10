@@ -17,6 +17,7 @@ class ProgramController extends Controller
             $program->package_name = $program->name;
             $program->pre_name = $program->subtitle;
             $program->program_introduction = $program->introduction;
+            $program->shop_features = $this->convertFeaturesToArray($program->shop_features);            
             foreach ($program->weeks as $week) {
                 $week->group_title = '1-4';
             }
