@@ -192,7 +192,8 @@ class ProgramController extends Controller
         $program->featured_image_url = $program->featured_image;
         $program->package_name = $program->name;
         $program->pre_name = $program->subtitle;
-        $program->program_introduction = $program->introduction;        
+        $program->program_introduction = $program->introduction;       
+        $program->shop_features = $this->convertFeaturesToArray($program->shop_features);
         foreach ($program->weeks as $week) {
             $week->group_title = '1-4';
             foreach ($week->days as $day) {
@@ -208,7 +209,21 @@ class ProgramController extends Controller
     
         return response()->json($program);
     }
+    private function convertFeaturesToArray($featuresString)
+    {
+        // Check if the string is null or empty
+        if (empty($featuresString)) {
+            return [];
+        }
     
+        // Ensure the string is of the correct type
+        if (!is_string($featuresString)) {
+            error_log('Expected a string for features, received: ' . gettype($featuresString));
+            return [];
+        }
+    
+        return explode(';', $featuresString);
+    }
     private function getFeatures($program)
     {
         return [
